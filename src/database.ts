@@ -21,7 +21,6 @@ database.addModels([Device]);
 database.addModels([Vehicle]);
 database.addModels([Driver]);
 database.addModels([Users]);
-database.addModels([Basics])
 
 database.authenticate()
     .then(() => {

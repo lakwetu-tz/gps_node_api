@@ -87,7 +87,6 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 
-// Register a new user
 export const register = async (req: Request, res: Response) => {
     const { username, password, phone, role } = req.body;
     try {
@@ -116,13 +115,13 @@ export const register = async (req: Request, res: Response) => {
 
         // Create the new user
         const newUser = await Users.create({ username, password: hashedPassword, phone, role: role || UserRole.USER });
-        console.log(newUser)
-        return res.status(201).json(newUser);
+        return res.status(200).json(newUser);
     } catch (error) {
         console.error("Error registering user:", error);
         return res.status(500).send({ error: "Internal server error" });
     }
 };
+
 
 // Login
 export const login = async (req: Request, res: Response) => {
@@ -156,7 +155,7 @@ export const login = async (req: Request, res: Response) => {
         res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
 
 
-        return res.status(200).json({ role: user.role, accessToken });
+        return res.status(200).json({ id: user.id, accessToken });
     } catch (error) {
         console.error("Error logging in:", error);
         return res.status(500).json({ error: "Internal server error" });

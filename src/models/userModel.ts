@@ -53,6 +53,33 @@ class Users extends Model {
     })
     declare refreshToken: string;
 
+    @Column({
+        type: DataType.STRING,
+        allowNull: true,
+        
+    })
+    declare email: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: true
+    })
+    declare image: string;
+
+    @Column({
+        type: DataType.BOOLEAN,
+        allowNull: false,
+        defaultValue: false 
+    })
+    declare deleted: boolean;
+
+    @Column({
+        type: DataType.BOOLEAN,
+        allowNull: false,
+        defaultValue: false 
+    })
+    declare sendNewletter: boolean;
+
     @CreatedAt
     declare created_at: Date;
 
@@ -60,4 +87,4 @@ class Users extends Model {
     declare updated_at: Date;
 }
 
-export { Users, UserRole }
+export { Users, UserRole };

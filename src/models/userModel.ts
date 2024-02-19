@@ -1,4 +1,6 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt } from "sequelize-typescript";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, ForeignKey, BelongsTo } from "sequelize-typescript";
+import Vehicles from "./vehicleModel";
+import Drivers from "./driverModel";
 
 enum UserRole {
     USER = "user",
@@ -16,10 +18,11 @@ enum UserRole {
 class Users extends Model {
     @Column({
         primaryKey: true,
-        type: DataType.UUID,
-        defaultValue: DataType.UUIDV4,
+        allowNull: true,
+        autoIncrement: true,
+        type: DataType.INTEGER,
     })
-    declare id: string;
+    declare id: number
 
     @Column({
         type: DataType.STRING,
@@ -79,6 +82,8 @@ class Users extends Model {
         defaultValue: false 
     })
     declare sendNewletter: boolean;
+
+    // other
 
     @CreatedAt
     declare created_at: Date;

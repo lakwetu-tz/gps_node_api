@@ -32,7 +32,7 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.Server(server, { connectionStateRecovery: {} });
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 app.set("io", io);
 app
     .disable("x-powered-by")

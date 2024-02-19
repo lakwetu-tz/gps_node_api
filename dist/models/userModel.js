@@ -24,10 +24,11 @@ exports.Users = Users;
 __decorate([
     (0, sequelize_typescript_1.Column)({
         primaryKey: true,
-        type: sequelize_typescript_1.DataType.UUID,
-        defaultValue: sequelize_typescript_1.DataType.UUIDV4,
+        allowNull: true,
+        autoIncrement: true,
+        type: sequelize_typescript_1.DataType.INTEGER,
     }),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], Users.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
@@ -66,6 +67,36 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], Users.prototype, "refreshToken", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true,
+    }),
+    __metadata("design:type", String)
+], Users.prototype, "email", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], Users.prototype, "image", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    }),
+    __metadata("design:type", Boolean)
+], Users.prototype, "deleted", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    }),
+    __metadata("design:type", Boolean)
+], Users.prototype, "sendNewletter", void 0);
 __decorate([
     sequelize_typescript_1.CreatedAt,
     __metadata("design:type", Date)

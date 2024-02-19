@@ -10,120 +10,149 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
-let Vehicle = class Vehicle extends sequelize_typescript_1.Model {
+let Vehicles = class Vehicles extends sequelize_typescript_1.Model {
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
         primaryKey: true,
-        type: sequelize_typescript_1.DataType.UUID,
-        defaultValue: sequelize_typescript_1.DataType.UUIDV4,
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "id", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        unique: true
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "vin", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        unique: true
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "deviceId", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        unique: true
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "plate", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "color", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "model", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "status", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "latitude", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "longitude", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
         allowNull: true,
+        autoIncrement: true,
+        type: sequelize_typescript_1.DataType.INTEGER,
+    }),
+    __metadata("design:type", Number)
+], Vehicles.prototype, "id", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        unique: true
     }),
     __metadata("design:type", String)
-], Vehicle.prototype, "altitude", void 0);
+], Vehicles.prototype, "plate", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "color", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: true
     }),
     __metadata("design:type", String)
-], Vehicle.prototype, "angle", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true,
-    }),
-    __metadata("design:type", String)
-], Vehicle.prototype, "speed", void 0);
+], Vehicles.prototype, "driverId", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Vehicle.prototype, "ignition", void 0);
+], Vehicles.prototype, "userId", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Vehicle.prototype, "movement", void 0);
+], Vehicles.prototype, "deviceId", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "model", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "make", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.INTEGER,
+        allowNull: false
+    }),
+    __metadata("design:type", Number)
+], Vehicles.prototype, "year", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "type", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "status", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "latitude", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "longitude", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true,
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "altitude", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "angle", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true,
+    }),
+    __metadata("design:type", String)
+], Vehicles.prototype, "speed", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.INTEGER,
+        allowNull: true
+    }),
+    __metadata("design:type", Number)
+], Vehicles.prototype, "ignition", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.INTEGER,
+        allowNull: true
+    }),
+    __metadata("design:type", Number)
+], Vehicles.prototype, "movement", void 0);
 __decorate([
     sequelize_typescript_1.CreatedAt,
     __metadata("design:type", Date)
-], Vehicle.prototype, "created_at", void 0);
+], Vehicles.prototype, "created_at", void 0);
 __decorate([
     sequelize_typescript_1.UpdatedAt,
     __metadata("design:type", Date)
-], Vehicle.prototype, "updated_at", void 0);
-Vehicle = __decorate([
+], Vehicles.prototype, "updated_at", void 0);
+Vehicles = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
-        tableName: "vehicle",
-        modelName: "Vehicle",
+        tableName: "vehicles",
+        modelName: "Vehicles",
     })
-], Vehicle);
-exports.default = Vehicle;
+], Vehicles);
+exports.default = Vehicles;

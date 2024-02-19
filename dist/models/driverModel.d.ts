@@ -1,12 +1,14 @@
 import { Model } from "sequelize-typescript";
-declare class Driver extends Model {
-    id: string;
+declare class Drivers extends Model {
+    id: number;
     firstName: string;
     lastName: string;
     licenseNumber: string;
+    vehicleId: number;
+    userId: number;
     phoneNumber: string;
     created_at: Date;
     updated_at: Date;
 }
-export default Driver;
+export default Drivers;
 //# sourceMappingURL=driverModel.d.ts.map

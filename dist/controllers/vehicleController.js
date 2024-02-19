@@ -14,6 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteVehicle = exports.updateVehicle = exports.createVehicle = exports.getVehicleById = exports.getAllVehicles = void 0;
 const vehicleModel_1 = __importDefault(require("../models/vehicleModel")); // Assuming you have imported the Vehicle model
+const userModel_1 = require("../models/userModel");
+const deviceModel_1 = __importDefault(require("../models/deviceModel"));
+const driverModel_1 = __importDefault(require("../models/driverModel"));
 // Get all vehicles
 const getAllVehicles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -48,22 +51,18 @@ const getVehicleById = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getVehicleById = getVehicleById;
 // Create a new vehicle
 const createVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { vin, model, plate, color, deviceId } = req.body;
+    const { model, make, year, plate, color, type } = req.body;
     try {
         // Validate VIN and model
-        if (!vin || !plate || !color || !deviceId) {
+        if (!model || !make || !color || !year || !plate || !type) {
             return res.status(400).json({ error: "missing value required" });
-        }
-        const existingVehicle = yield vehicleModel_1.default.findOne({ where: { vin } });
-        if (existingVehicle) {
-            return res.status(400).json({ error: "vin already exists" });
         }
         const existingPlate = yield vehicleModel_1.default.findOne({ where: { plate } });
         if (existingPlate) {
             return res.status(400).json({ error: "number plate already exists" });
         }
         // Create the new vehicle
-        const newVehicle = yield vehicleModel_1.default.create({ vin, model, plate, color, status: "pending", deviceId });
+        const newVehicle = yield vehicleModel_1.default.create({ year, model, make, plate, color, type, status: "registered", });
         return res.status(201).json(newVehicle);
     }
     catch (error) {
@@ -72,19 +71,58 @@ const createVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.createVehicle = createVehicle;
-// Update an existing vehicle
 const updateVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { vin, model } = req.body;
+    const { userId, driverId, deviceId, plate, make, color, model, type, year } = req.body;
     try {
         // Check if the vehicle exists
         const vehicle = yield vehicleModel_1.default.findByPk(id);
         if (!vehicle) {
             return res.status(404).json({ error: "Vehicle not found" });
         }
+        if (userId !== undefined) {
+            const user = yield userModel_1.Users.findByPk(userId);
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+        }
+        if (driverId !== undefined) {
+            const driver = yield driverModel_1.default.findByPk(driverId);
+            if (!driver) {
+                return res.status(404).json({ error: "Driver not found" });
+            }
+        }
+        if (deviceId !== undefined) {
+            const device = yield deviceModel_1.default.findByPk(deviceId);
+            if (!device) {
+                return res.status(404).json({ error: "Device not found" });
+            }
+        }
+        const updatedFields = {};
+        if (userId !== undefined)
+            updatedFields.userId = userId;
+        if (driverId !== undefined)
+            updatedFields.driverId = driverId;
+        if (deviceId !== undefined)
+            updatedFields.deviceId = deviceId;
+        if (plate !== undefined)
+            updatedFields.plate = plate;
+        if (make !== undefined)
+            updatedFields.make = make;
+        if (color !== undefined)
+            updatedFields.color = color;
+        if (model !== undefined)
+            updatedFields.model = model;
+        if (type !== undefined)
+            updatedFields.type = type;
+        if (year !== undefined)
+            updatedFields.year = year;
+        if (Object.keys(updatedFields).length === 0) {
+            return res.status(400).json({ error: "No valid fields to update" });
+        }
         // Update the vehicle
-        yield vehicle.update({ vin, model });
-        return res.status(200).json(vehicle);
+        const updates = yield vehicle.update(updatedFields);
+        return res.status(200).json(updates);
     }
     catch (error) {
         console.error("Error updating vehicle:", error);

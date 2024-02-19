@@ -93,7 +93,6 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteUser = deleteUser;
-// Register a new user
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password, phone, role } = req.body;
     try {
@@ -117,8 +116,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         // Create the new user
         const newUser = yield userModel_1.Users.create({ username, password: hashedPassword, phone, role: role || userModel_1.UserRole.USER });
-        console.log(newUser);
-        return res.status(201).json(newUser);
+        return res.status(200).json(newUser);
     }
     catch (error) {
         console.error("Error registering user:", error);
@@ -147,7 +145,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield user.save();
         // Creates Secure Cookie with refresh token
         res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
-        return res.status(200).json({ role: user.role, accessToken });
+        return res.status(200).json({ id: user.id, accessToken });
     }
     catch (error) {
         console.error("Error logging in:", error);

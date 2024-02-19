@@ -3,9 +3,7 @@ import Device from './models/deviceModel';
 import Vehicle from './models/vehicleModel';
 import Driver from './models/driverModel';
 import { Users } from './models/userModel';
-import Basics from './models/basicModel';
 
-import { BasicListenerUpdateVehicle } from './listensers/listenBasics'
 
 // Create a Sequelize instance
 const database = new Sequelize({

@@ -1,38 +1,58 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, HasMany} from "sequelize-typescript";
-import Vehicle from "./vehicleModel";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, HasMany, ForeignKey, BelongsTo} from "sequelize-typescript";
+import Vehicles from "./vehicleModel";
+import { Users } from "./userModel";
 
 @Table({
     timestamps: true,
-    tableName: "driver",
-    modelName: "Driver",
+    tableName: "drivers",
+    modelName: "Drivers",
 })
-class Driver extends Model {
+class Drivers extends Model {
     @Column({
         primaryKey: true,
-        type: DataType.UUID,
-        defaultValue: DataType.UUIDV4,
+        type: DataType.INTEGER,
+        allowNull: false
     })
-    declare id: string;
+    declare id: number;
 
     @Column({
         type: DataType.STRING,
+        allowNull: false
     })
     declare firstName: string;
 
     @Column({
         type: DataType.STRING,
+        allowNull: false
     })
     declare lastName: string;
 
     @Column({
         type: DataType.STRING,
+        allowNull: false
     })
     declare licenseNumber: string;
 
     @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    declare vehicleId: number;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    declare userId: number;
+
+    @Column({
         type: DataType.STRING,
+        allowNull: false
     })
     declare phoneNumber: string;
+
+
+    // default 
 
     @CreatedAt
     declare created_at: Date;
@@ -41,4 +61,4 @@ class Driver extends Model {
     declare updated_at: Date;
 }
 
-export default Driver;
+export default Drivers;

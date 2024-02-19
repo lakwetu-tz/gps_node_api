@@ -5,20 +5,24 @@ import {
     DataType,
     CreatedAt,
     UpdatedAt,
+    ForeignKey,
+    BelongsTo,
 } from "sequelize-typescript";
+import Vehicles from "./vehicleModel";
 
 @Table({
     timestamps: true,
-    tableName: "device",
-    modelName: "Device",
+    tableName: "devices",
+    modelName: "Devices",
 })
-class Device extends Model {
+class Devices extends Model {
     @Column({
         primaryKey: true,
-        type: DataType.UUID,
-        defaultValue: DataType.UUIDV4,
+        allowNull: true,
+        autoIncrement: true,
+        type: DataType.INTEGER,
     })
-    declare id: string;
+    declare id: number
 
     @Column({
         type: DataType.STRING,
@@ -43,6 +47,19 @@ class Device extends Model {
         allowNull: false
     })
     declare model: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare status: string;
+
+    @Column({
+        type: DataType.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    })
+    declare mobileData: boolean;
 
     @Column({
         type: DataType.INTEGER, 
@@ -136,4 +153,4 @@ class Device extends Model {
     declare updated_at: Date;
 }
 
-export default Device;
+export default Devices;

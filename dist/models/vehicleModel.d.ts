@@ -1,11 +1,15 @@
 import { Model } from "sequelize-typescript";
-declare class Vehicle extends Model {
-    id: string;
-    vin: string;
-    deviceId: string;
+declare class Vehicles extends Model {
+    id: number;
     plate: string;
     color: string;
+    driverId: string;
+    userId: number;
+    deviceId: number;
     model: string;
+    make: string;
+    year: number;
+    type: string;
     status: string;
     latitude: string;
     longitude: string;
@@ -17,5 +21,5 @@ declare class Vehicle extends Model {
     created_at: Date;
     updated_at: Date;
 }
-export default Vehicle;
+export default Vehicles;
 //# sourceMappingURL=vehicleModel.d.ts.map

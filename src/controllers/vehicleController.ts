@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import Vehicle from "../models/vehicleModel"; // Assuming you have imported the Vehicle model
+import { Users } from "../models/userModel";
+import Devices from "../models/deviceModel";
+import Drivers from "../models/driverModel";
 
 // Get all vehicles
 export const getAllVehicles = async (req: Request, res: Response) => {
@@ -35,17 +38,11 @@ export const getVehicleById = async (req: Request, res: Response) => {
 
 // Create a new vehicle
 export const createVehicle = async (req: Request, res: Response) => {
-    const { vin, model, plate, color, deviceId } = req.body;
+    const { model, make, year, plate, color, type } = req.body;
     try {
         // Validate VIN and model
-        if (!vin || !plate || !color || !deviceId ) {
+        if (!model || !make || !color || !year || !plate || !type ) {
             return res.status(400).json({ error: "missing value required" });
-        }
-
-
-        const existingVehicle = await Vehicle.findOne({ where: { vin } });
-        if (existingVehicle) {
-            return res.status(400).json({ error: "vin already exists" });
         }
 
         const existingPlate = await Vehicle.findOne({ where: { plate } });
@@ -54,7 +51,7 @@ export const createVehicle = async (req: Request, res: Response) => {
         }
 
         // Create the new vehicle
-        const newVehicle = await Vehicle.create({ vin, model, plate, color, status: "pending", deviceId });
+        const newVehicle = await Vehicle.create({ year, model, make, plate, color, type, status: "registered", });
         return res.status(201).json(newVehicle);
     } catch (error) {
         console.error("Error creating vehicle:", error);
@@ -62,20 +59,59 @@ export const createVehicle = async (req: Request, res: Response) => {
     }
 };
 
-// Update an existing vehicle
 export const updateVehicle = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { vin, model } = req.body;
+    const { userId, driverId, deviceId, plate, make, color, model, type, year } = req.body;
     try {
+
         // Check if the vehicle exists
         const vehicle = await Vehicle.findByPk(id);
         if (!vehicle) {
             return res.status(404).json({ error: "Vehicle not found" });
         }
 
+        if (userId !== undefined){
+            const user = await Users.findByPk(userId);
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+        }
+
+        if (driverId !== undefined) {
+            const driver = await Drivers.findByPk(driverId);
+            if (!driver) {
+                return res.status(404).json({ error: "Driver not found" });
+            }
+        }
+
+        if (deviceId !== undefined) {
+            const device = await Devices.findByPk(deviceId);
+            if (!device) {
+                return res.status(404).json({ error: "Device not found" });
+            }
+        }
+
+        const updatedFields: any = {};
+        if (userId !== undefined) updatedFields.userId = userId;
+        if (driverId !== undefined) updatedFields.driverId = driverId;
+        if (deviceId !== undefined) updatedFields.deviceId = deviceId;
+        if (plate !== undefined) updatedFields.plate = plate;
+        if (make !== undefined) updatedFields.make = make;
+        if (color !== undefined) updatedFields.color = color;
+        if (model !== undefined) updatedFields.model = model;
+        if (type !== undefined) updatedFields.type = type;
+        if (year !== undefined) updatedFields.year = year;
+    
+
+        if (Object.keys(updatedFields).length === 0) {
+            return res.status(400).json({ error: "No valid fields to update" });
+        }
+
+
         // Update the vehicle
-        await vehicle.update({ vin, model });
-        return res.status(200).json(vehicle);
+        const updates = await vehicle.update(updatedFields);
+
+        return res.status(200).json(updates);
     } catch (error) {
         console.error("Error updating vehicle:", error);
         return res.status(500).json({ error: "Internal server error" });

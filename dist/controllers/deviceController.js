@@ -43,7 +43,7 @@ exports.getAllDevices = getAllDevices;
 const createDevice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { imei, model, simCard, name } = req.body;
     try {
-        if (!imei || !simCard) {
+        if (!imei || !simCard || !name || !model) {
             return res.status(400).json({ error: "missing value required" });
         }
         const existingImei = yield deviceModel_1.default.findOne({ where: { imei } });
@@ -54,7 +54,7 @@ const createDevice = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (existingSimcard) {
             return res.status(400).json({ error: "simcard already exists" });
         }
-        const device = yield deviceModel_1.default.create({ imei, model, name, simCard });
+        const device = yield deviceModel_1.default.create({ imei, model, name, simCard, status: "registered", mobileData: true });
         return res.status(201).json(device);
     }
     catch (error) {

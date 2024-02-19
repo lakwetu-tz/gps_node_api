@@ -35,7 +35,7 @@ const createDevice = async (req: express.Request, res: express.Response) => {
     const { imei, model, simCard, name } = req.body;
         try {
 
-            if (!imei || !simCard ) {
+            if (!imei || !simCard || !name || !model) {
                 return res.status(400).json({ error: "missing value required" });
             }
 
@@ -49,7 +49,7 @@ const createDevice = async (req: express.Request, res: express.Response) => {
                 return res.status(400).json({ error: "simcard already exists" });
             }
 
-            const device = await Device.create({ imei, model, name, simCard})
+            const device = await Device.create({ imei, model, name, simCard, status: "registered", mobileData: true})
             return res.status(201).json(device);
         } catch (error) {
             console.error('Error creating device:', error);

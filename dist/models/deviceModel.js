@@ -10,155 +10,171 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
-let Device = class Device extends sequelize_typescript_1.Model {
+let Devices = class Devices extends sequelize_typescript_1.Model {
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
         primaryKey: true,
-        type: sequelize_typescript_1.DataType.UUID,
-        defaultValue: sequelize_typescript_1.DataType.UUIDV4,
+        allowNull: true,
+        autoIncrement: true,
+        type: sequelize_typescript_1.DataType.INTEGER,
     }),
-    __metadata("design:type", String)
-], Device.prototype, "id", void 0);
+    __metadata("design:type", Number)
+], Devices.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         unique: true
     }),
     __metadata("design:type", String)
-], Device.prototype, "imei", void 0);
+], Devices.prototype, "imei", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         unique: true
     }),
     __metadata("design:type", String)
-], Device.prototype, "simCard", void 0);
+], Devices.prototype, "simCard", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false
     }),
     __metadata("design:type", String)
-], Device.prototype, "name", void 0);
+], Devices.prototype, "name", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false
     }),
     __metadata("design:type", String)
-], Device.prototype, "model", void 0);
+], Devices.prototype, "model", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Devices.prototype, "status", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+    }),
+    __metadata("design:type", Boolean)
+], Devices.prototype, "mobileData", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "axisX", void 0);
+], Devices.prototype, "axisX", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "axisY", void 0);
+], Devices.prototype, "axisY", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "axisZ", void 0);
+], Devices.prototype, "axisZ", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "batteryLevel", void 0);
+], Devices.prototype, "batteryLevel", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "digitalInput", void 0);
+], Devices.prototype, "digitalInput", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "ecoScore", void 0);
+], Devices.prototype, "ecoScore", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "externalVoltage", void 0);
+], Devices.prototype, "externalVoltage", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "gsmAreaCode", void 0);
+], Devices.prototype, "gsmAreaCode", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "gsmCellId", void 0);
+], Devices.prototype, "gsmCellId", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "gsmSignal", void 0);
+], Devices.prototype, "gsmSignal", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Boolean)
-], Device.prototype, "sleepMode", void 0);
+], Devices.prototype, "sleepMode", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "timestamp", void 0);
+], Devices.prototype, "timestamp", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "totalOdometer", void 0);
+], Devices.prototype, "totalOdometer", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
     __metadata("design:type", Number)
-], Device.prototype, "unplug", void 0);
+], Devices.prototype, "unplug", void 0);
 __decorate([
     sequelize_typescript_1.CreatedAt,
     __metadata("design:type", Date)
-], Device.prototype, "created_at", void 0);
+], Devices.prototype, "created_at", void 0);
 __decorate([
     sequelize_typescript_1.UpdatedAt,
     __metadata("design:type", Date)
-], Device.prototype, "updated_at", void 0);
-Device = __decorate([
+], Devices.prototype, "updated_at", void 0);
+Devices = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
-        tableName: "device",
-        modelName: "Device",
+        tableName: "devices",
+        modelName: "Devices",
     })
-], Device);
-exports.default = Device;
+], Devices);
+exports.default = Devices;

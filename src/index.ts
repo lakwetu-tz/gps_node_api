@@ -22,7 +22,7 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { connectionStateRecovery: {} });
-const port = process.env.PORT
+const port = process.env.PORT || 8000
 
 app.set("io", io);
 

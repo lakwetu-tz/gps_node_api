@@ -1,10 +1,12 @@
 import { Model } from "sequelize-typescript";
-declare class Device extends Model {
-    id: string;
+declare class Devices extends Model {
+    id: number;
     imei: string;
     simCard: string;
     name: string;
     model: string;
+    status: string;
+    mobileData: boolean;
     axisX: number;
     axisY: number;
     axisZ: number;
@@ -22,5 +24,5 @@ declare class Device extends Model {
     created_at: Date;
     updated_at: Date;
 }
-export default Device;
+export default Devices;
 //# sourceMappingURL=deviceModel.d.ts.map

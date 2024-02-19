@@ -5,32 +5,24 @@ import {
     DataType,
     CreatedAt,
     UpdatedAt,
+    BelongsTo,
+    ForeignKey,
 } from "sequelize-typescript";
 
 @Table({
     timestamps: true,
-    tableName: "vehicle",
-    modelName: "Vehicle",
+    tableName: "vehicles",
+    modelName: "Vehicles",
 })
-class Vehicle extends Model {
+class Vehicles extends Model {
     @Column({
         primaryKey: true,
-        type: DataType.UUID,
-        defaultValue: DataType.UUIDV4,
+        allowNull: true,
+        autoIncrement: true,
+        type: DataType.INTEGER,
     })
-    declare id: string;
+    declare id: number;
 
-    @Column({
-        type: DataType.STRING,
-        unique: true
-    })
-    declare vin: string;
-
-    @Column({
-        type: DataType.STRING,
-        unique: true
-    })
-    declare deviceId: string
 
     @Column({
         type: DataType.STRING,
@@ -46,9 +38,45 @@ class Vehicle extends Model {
 
     @Column({
         type: DataType.STRING,
+        allowNull: true
+    })
+    declare driverId: string;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: true
+    })
+    declare userId: number;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: true
+    })
+    declare deviceId: number;
+
+    @Column({
+        type: DataType.STRING,
         allowNull: false
     })
     declare model: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare make: string;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    declare year: number;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare type: string;
 
     @Column({
         type: DataType.STRING,
@@ -98,6 +126,7 @@ class Vehicle extends Model {
     })
     declare movement: number;
 
+    // others 
 
     @CreatedAt
     declare created_at: Date;
@@ -106,4 +135,4 @@ class Vehicle extends Model {
     declare updated_at: Date;
 }
 
-export default Vehicle;
+export default Vehicles;

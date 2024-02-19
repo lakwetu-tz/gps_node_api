@@ -3,7 +3,7 @@ declare class Vehicles extends Model {
     id: number;
     plate: string;
     color: string;
-    driverId: string;
+    driverId: number;
     userId: number;
     deviceId: number;
     model: string;

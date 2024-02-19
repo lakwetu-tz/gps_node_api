@@ -19,7 +19,7 @@ class Vehicles extends Model {
         primaryKey: true,
         allowNull: true,
         autoIncrement: true,
-        type: DataType.INTEGER,
+        type: DataType.BIGINT,
     })
     declare id: number;
 
@@ -37,19 +37,19 @@ class Vehicles extends Model {
     declare color: string;
 
     @Column({
-        type: DataType.STRING,
+        type: DataType.BIGINT,
         allowNull: true
     })
-    declare driverId: string;
+    declare driverId: number;
 
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.BIGINT,
         allowNull: true
     })
     declare userId: number;
 
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.BIGINT,
         allowNull: true
     })
     declare deviceId: number;

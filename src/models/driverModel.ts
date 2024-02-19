@@ -10,7 +10,7 @@ import { Users } from "./userModel";
 class Drivers extends Model {
     @Column({
         primaryKey: true,
-        type: DataType.INTEGER,
+        type: DataType.BIGINT,
         allowNull: false
     })
     declare id: number;

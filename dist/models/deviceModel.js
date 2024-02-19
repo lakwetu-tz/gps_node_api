@@ -17,7 +17,7 @@ __decorate([
         primaryKey: true,
         allowNull: true,
         autoIncrement: true,
-        type: sequelize_typescript_1.DataType.INTEGER,
+        type: sequelize_typescript_1.DataType.BIGINT,
     }),
     __metadata("design:type", Number)
 ], Devices.prototype, "id", void 0);

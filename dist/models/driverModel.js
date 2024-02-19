@@ -15,7 +15,7 @@ let Drivers = class Drivers extends sequelize_typescript_1.Model {
 __decorate([
     (0, sequelize_typescript_1.Column)({
         primaryKey: true,
-        type: sequelize_typescript_1.DataType.INTEGER,
+        type: sequelize_typescript_1.DataType.BIGINT,
         allowNull: false
     }),
     __metadata("design:type", Number)

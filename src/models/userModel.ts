@@ -20,7 +20,7 @@ class Users extends Model {
         primaryKey: true,
         allowNull: true,
         autoIncrement: true,
-        type: DataType.INTEGER,
+        type: DataType.BIGINT,
     })
     declare id: number
 

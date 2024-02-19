@@ -85,7 +85,7 @@ export const updateVehicle = async (req: Request, res: Response) => {
         }
 
         if (deviceId !== undefined) {
-            const device = await Devices.findByPk(deviceId);
+            const device = await Devices.findOne({ where: { imei: deviceId }});
             if (!device) {
                 return res.status(404).json({ error: "Device not found" });
             }

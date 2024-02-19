@@ -5,8 +5,6 @@ import {
     DataType,
     CreatedAt,
     UpdatedAt,
-    BelongsTo,
-    ForeignKey,
 } from "sequelize-typescript";
 
 @Table({
@@ -40,7 +38,7 @@ class Vehicles extends Model {
         type: DataType.BIGINT,
         allowNull: true
     })
-    declare driverId: number;
+    declare driverId: string;
 
     @Column({
         type: DataType.BIGINT,
@@ -49,10 +47,10 @@ class Vehicles extends Model {
     declare userId: number;
 
     @Column({
-        type: DataType.BIGINT,
+        type: DataType.STRING(200),
         allowNull: true
     })
-    declare deviceId: number;
+    declare deviceId: string;
 
     @Column({
         type: DataType.STRING,

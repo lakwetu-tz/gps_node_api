@@ -40,7 +40,7 @@ __decorate([
         type: sequelize_typescript_1.DataType.BIGINT,
         allowNull: true
     }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Vehicles.prototype, "driverId", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
@@ -51,10 +51,10 @@ __decorate([
 ], Vehicles.prototype, "userId", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.BIGINT,
+        type: sequelize_typescript_1.DataType.STRING(200),
         allowNull: true
     }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Vehicles.prototype, "deviceId", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({

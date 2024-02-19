@@ -93,7 +93,7 @@ const updateVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             }
         }
         if (deviceId !== undefined) {
-            const device = yield deviceModel_1.default.findByPk(deviceId);
+            const device = yield deviceModel_1.default.findOne({ where: { imei: deviceId } });
             if (!device) {
                 return res.status(404).json({ error: "Device not found" });
             }

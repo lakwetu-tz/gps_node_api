@@ -86,3 +86,15 @@
 20240219	11:37:16	4cae9de8-2534-4c31-b7f5-6dffc618d014	PUT	undefined	/api/v1/vehicle/update/1
 20240219	11:37:40	685dfc16-06e5-4883-82a3-d1c959dd3ab7	POST	undefined	/api/v1/user/register
 20240219	11:37:46	e0c342cb-17d9-4651-985b-6210eca815b0	PUT	undefined	/api/v1/vehicle/update/1
+20240219	13:23:26	da684077-5cd7-40b4-99e1-629f060a2155	PUT	undefined	/api/v1/vehicle/update/1
+20240219	13:23:34	a15238a3-7c5b-4867-bf2f-b63547a8f479	POST	undefined	/api/v1/user/register
+20240219	13:23:49	18850a5d-b3b1-4435-ac8a-0944c23ac30b	POST	undefined	/api/v1/device/create
+20240219	13:23:56	32c37d95-c489-4937-883d-0f39f91e1864	PUT	undefined	/api/v1/vehicle/update/1
+20240219	13:24:46	ac51a9e9-b6e5-45e0-bbff-750eb6859dea	PUT	undefined	/api/v1/vehicle/update/1
+20240219	13:25:35	d3f9d332-6f79-4da5-8956-598a2079ec72	GET	undefined	/api/v1/vehicle/all
+20240219	13:25:51	3760ef4b-be6f-4427-935b-61aa11a3b50a	POST	undefined	/api/v1/device/create
+20240219	13:26:06	54027a3a-fd0b-432c-9990-14ed9876f33d	GET	undefined	/api/v1/device/all
+20240219	13:26:15	8379edea-e7a4-4b2f-8dc7-ea9804170715	PUT	undefined	/api/v1/vehicle/update/1
+20240219	13:26:29	984c8e80-e0d6-4f04-920c-74f2cde5c766	POST	undefined	/api/v1/vehicle/create/
+20240219	13:26:58	574271b8-03d2-4d64-9749-cf563e7ab8dc	POST	undefined	/api/v1/vehicle/update/1
+20240219	13:27:07	9d4aa11b-1bc9-4a6d-9a7f-321feb0bff02	PUT	undefined	/api/v1/vehicle/update/1

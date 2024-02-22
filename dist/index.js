@@ -25,13 +25,17 @@ const driverController_1 = __importDefault(require("./routes/driverController"))
 const usersRoutes_1 = __importDefault(require("./routes/usersRoutes"));
 const entriesRoute_1 = __importDefault(require("./routes/entriesRoute"));
 require("./database");
-const socket_io_1 = require("socket.io");
+const socket_io_1 = __importDefault(require("socket.io"));
 const logEvents_1 = require("./middleware/logEvents");
 const errorHandler_1 = require("./middleware/errorHandler");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
-const io = new socket_io_1.Server(server, { connectionStateRecovery: {} });
+const io = new socket_io_1.default.Server(server, {
+    cors: {
+        origin: '*',
+    },
+});
 const port = process.env.PORT || 8000;
 app.set("io", io);
 app
@@ -39,7 +43,7 @@ app
     .use((0, morgan_1.default)("dev"))
     .use(express_1.default.urlencoded({ extended: true }))
     .use(express_1.default.json())
-    .use((0, cors_1.default)())
+    .use((0, cors_1.default)({ origin: '*' }))
     .use(cookieParser())
     .use(logEvents_1.logger)
     .use(errorHandler_1.errorHandler)
@@ -50,7 +54,10 @@ app
     .use("/api/v1/entries", entriesRoute_1.default)
     .get("/healthz", (req, res) => { return res.json({ ok: true, environment: process.env.NODE_ENV }); });
 io.on("connection", (socket) => {
-    console.log("socket connected");
+    console.log("socket connected", socket.id);
+    socket.on('disconnect', () => {
+        console.log('Client disconnect:', socket.id);
+    });
 });
 server.listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
     try {

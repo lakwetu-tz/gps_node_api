@@ -13,7 +13,7 @@ import userRoutes from './routes/usersRoutes'
 import entriesRoutes from "./routes/entriesRoute";
 import Vehicle from "./models/vehicleModel";
 import "./database";
-import { Server } from 'socket.io';
+import SocketIO from 'socket.io';
 
 import { logger } from './middleware/logEvents';
 import { errorHandler } from './middleware/errorHandler';
@@ -21,7 +21,11 @@ import { errorHandler } from './middleware/errorHandler';
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { connectionStateRecovery: {} });
+const io = new SocketIO.Server(server, {
+    cors: {
+        origin: '*',
+    },
+});
 const port = process.env.PORT || 8000
 
 app.set("io", io);
@@ -31,7 +35,7 @@ app
     .use(morgan("dev"))
     .use(express.urlencoded({ extended: true }))
     .use(express.json())
-    .use(cors())
+    .use(cors({ origin: '*'}))
     .use(cookieParser())
     .use(logger)
     .use(errorHandler)
@@ -44,10 +48,16 @@ app
 
     .get("/healthz", (req, res) => { return res.json({ ok: true, environment: process.env.NODE_ENV }) })
 
-    io.on("connection", (socket: any) => {
-        console.log("socket connected")
+    
+    io.on("connection", (socket: SocketIO.Socket) => {
+        console.log("socket connected", socket.id)
 
+        socket.on('disconnect', () => {
+            console.log('Client disconnect:' , socket.id)
+        })
     })
+
+
     
 
 server.listen(port, async () => {

@@ -17,10 +17,10 @@ var UserRole;
     UserRole["SUPERUSER"] = "superuser";
     UserRole["ADMIN"] = "admin";
     UserRole["SUSPENDED"] = "SUSPENDED";
-})(UserRole || (exports.UserRole = UserRole = {}));
+})(UserRole || (UserRole = {}));
+exports.UserRole = UserRole;
 let Users = class Users extends sequelize_typescript_1.Model {
 };
-exports.Users = Users;
 __decorate([
     (0, sequelize_typescript_1.Column)({
         primaryKey: true,
@@ -105,10 +105,11 @@ __decorate([
     sequelize_typescript_1.UpdatedAt,
     __metadata("design:type", Date)
 ], Users.prototype, "updated_at", void 0);
-exports.Users = Users = __decorate([
+Users = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
         tableName: "users",
         modelName: "Users"
     })
 ], Users);
+exports.Users = Users;

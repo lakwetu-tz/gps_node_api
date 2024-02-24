@@ -88,16 +88,12 @@ export const deleteUser = async (req: Request, res: Response) => {
 
 
 export const register = async (req: Request, res: Response) => {
-    const { username, password, phone, role } = req.body;
+    const { username, password, phone } = req.body;
     try {
         if (!username || !password || !phone ) {
             return res.status(400).json({ error: "All fields are required" });
         }
 
-        // Check if role is valid
-        if (!Object.values(UserRole).includes(role)) {
-            return res.status(400).json({ error: "Invalid role" });
-        }
 
          // Check if username already exists
         const existingUser = await Users.findOne({ where: { username } });
@@ -114,7 +110,7 @@ export const register = async (req: Request, res: Response) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create the new user
-        const newUser = await Users.create({ username, password: hashedPassword, phone, role: role || UserRole.USER });
+        const newUser = await Users.create({ username, password: hashedPassword, phone, role: UserRole.USER });
         return res.status(200).json(newUser);
     } catch (error) {
         console.error("Error registering user:", error);
@@ -154,6 +150,80 @@ export const login = async (req: Request, res: Response) => {
         // Creates Secure Cookie with refresh token
         res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
 
+
+        return res.status(200).json({ id: user.id, accessToken });
+    } catch (error) {
+        console.error("Error logging in:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+export const registerClient = async (req: Request, res: Response) => {
+    const { username, password, email } = req.body;
+    try {
+        if (!username || !password || !email ) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+
+         // Check if username already exists
+        const existingUser = await Users.findOne({ where: { username } });
+        if (existingUser) {
+            return res.status(401).json({ error: "Username already exists" });
+        }
+
+        const existingEmail = await Users.findOne({ where: { email } });
+        if (existingEmail) {
+            return res.status(402).json({ error: "Email number already exists" });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create the new user
+        const newUser = await Users.create({ username, password: hashedPassword, email, role: UserRole.USER });
+        return res.status(200).json(newUser);
+    } catch (error) {
+        console.error("Error registering user:", error);
+        return res.status(500).send({ error: "Internal server error" });
+    }
+};
+
+export const loginClient = async (req: Request, res: Response) => {
+    const { username, email, password } = req.body;
+    try {
+        let user;
+
+        // Find user by email or username
+        if (email) {
+            user = await Users.findOne({ where: { email } });
+        } else if (username) {
+            user = await Users.findOne({ where: { username } });
+        }
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Check password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Invalid password" });
+        }
+
+        const accessToken = jwt.sign(
+            { "id": user.id, "role": UserRole.USER }, JWT_SECRET_KEY, { expiresIn: '1h'}
+        );
+
+        const refreshToken = jwt.sign(
+            { "id": user.id }, REFRESH_SECRET_TOKEN, { expiresIn: '1d'}
+        );
+
+        // Saving refreshToken
+        user.refreshToken = refreshToken;
+        await user.save();
+
+        // Creates Secure Cookie with refresh token
+        res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
 
         return res.status(200).json({ id: user.id, accessToken });
     } catch (error) {

@@ -7,8 +7,10 @@ const express_1 = __importDefault(require("express"));
 const userController_1 = require("../controllers/userController");
 const router = express_1.default.Router();
 // Register a new user
-router.post("/register", userController_1.register);
-router.post("/login", userController_1.login);
+router.post("/register/user", userController_1.register);
+router.post("/login/user", userController_1.login);
+router.post("/login/client", userController_1.loginClient);
+router.post("/register/client", userController_1.registerClient);
 router.get("/logout", userController_1.logout),
     router.get('/refresh', userController_1.refreshToken);
 router.get("/all", userController_1.getAllUsers);

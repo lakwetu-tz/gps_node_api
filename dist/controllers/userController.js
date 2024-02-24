@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.refreshToken = exports.suspendAccount = exports.login = exports.register = exports.deleteUser = exports.updateUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.logout = exports.refreshToken = exports.suspendAccount = exports.loginClient = exports.registerClient = exports.login = exports.register = exports.deleteUser = exports.updateUser = exports.getUserById = exports.getAllUsers = void 0;
 const userModel_1 = require("../models/userModel");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -94,14 +94,10 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.deleteUser = deleteUser;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password, phone, role } = req.body;
+    const { username, password, phone } = req.body;
     try {
         if (!username || !password || !phone) {
             return res.status(400).json({ error: "All fields are required" });
-        }
-        // Check if role is valid
-        if (!Object.values(userModel_1.UserRole).includes(role)) {
-            return res.status(400).json({ error: "Invalid role" });
         }
         // Check if username already exists
         const existingUser = yield userModel_1.Users.findOne({ where: { username } });
@@ -115,7 +111,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // Hash the password
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         // Create the new user
-        const newUser = yield userModel_1.Users.create({ username, password: hashedPassword, phone, role: role || userModel_1.UserRole.USER });
+        const newUser = yield userModel_1.Users.create({ username, password: hashedPassword, phone, role: userModel_1.UserRole.USER });
         return res.status(200).json(newUser);
     }
     catch (error) {
@@ -153,6 +149,67 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+const registerClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password, email } = req.body;
+    try {
+        if (!username || !password || !email) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+        // Check if username already exists
+        const existingUser = yield userModel_1.Users.findOne({ where: { username } });
+        if (existingUser) {
+            return res.status(401).json({ error: "Username already exists" });
+        }
+        const existingEmail = yield userModel_1.Users.findOne({ where: { email } });
+        if (existingEmail) {
+            return res.status(402).json({ error: "Email number already exists" });
+        }
+        // Hash the password
+        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        // Create the new user
+        const newUser = yield userModel_1.Users.create({ username, password: hashedPassword, email, role: userModel_1.UserRole.USER });
+        return res.status(200).json(newUser);
+    }
+    catch (error) {
+        console.error("Error registering user:", error);
+        return res.status(500).send({ error: "Internal server error" });
+    }
+});
+exports.registerClient = registerClient;
+const loginClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, email, password } = req.body;
+    try {
+        let user;
+        // Find user by email or username
+        if (email) {
+            user = yield userModel_1.Users.findOne({ where: { email } });
+        }
+        else if (username) {
+            user = yield userModel_1.Users.findOne({ where: { username } });
+        }
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        // Check password
+        const isPasswordValid = yield bcrypt_1.default.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Invalid password" });
+        }
+        const accessToken = jsonwebtoken_1.default.sign({ "id": user.id, "role": userModel_1.UserRole.USER }, JWT_SECRET_KEY, { expiresIn: '1h' });
+        const refreshToken = jsonwebtoken_1.default.sign({ "id": user.id }, REFRESH_SECRET_TOKEN, { expiresIn: '1d' });
+        // Saving refreshToken
+        user.refreshToken = refreshToken;
+        yield user.save();
+        // Creates Secure Cookie with refresh token
+        res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
+        return res.status(200).json({ id: user.id, accessToken });
+    }
+    catch (error) {
+        console.error("Error logging in:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+exports.loginClient = loginClient;
 // Suspend user account
 const suspendAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;

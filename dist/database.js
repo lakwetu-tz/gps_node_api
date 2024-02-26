@@ -8,6 +8,7 @@ const deviceModel_1 = __importDefault(require("./models/deviceModel"));
 const vehicleModel_1 = __importDefault(require("./models/vehicleModel"));
 const driverModel_1 = __importDefault(require("./models/driverModel"));
 const userModel_1 = require("./models/userModel");
+const routeModel_1 = __importDefault(require("./models/routeModel"));
 // Create a Sequelize instance
 const database = new sequelize_typescript_1.Sequelize({
     database: 'trackingdb',
@@ -21,6 +22,7 @@ database.addModels([deviceModel_1.default]);
 database.addModels([vehicleModel_1.default]);
 database.addModels([driverModel_1.default]);
 database.addModels([userModel_1.Users]);
+database.addModels([routeModel_1.default]);
 database.authenticate()
     .then(() => {
     console.log('Connection has been established successfully.');

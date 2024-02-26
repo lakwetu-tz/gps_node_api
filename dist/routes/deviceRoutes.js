@@ -8,6 +8,7 @@ const deviceController_1 = require("../controllers/deviceController");
 const router = express_1.default.Router();
 router.get('/all', deviceController_1.getAllDevices);
 router.get('/get/:id', deviceController_1.getDevice);
+router.get('/imei/:deviceId', deviceController_1.getDeviceIMEI);
 router.put('/update', deviceController_1.updateDevice);
 router.delete('/delete/:id', deviceController_1.deleteDevice);
 router.post('/create/', deviceController_1.createDevice);

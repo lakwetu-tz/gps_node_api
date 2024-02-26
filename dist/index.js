@@ -28,6 +28,7 @@ require("./database");
 const socket_io_1 = __importDefault(require("socket.io"));
 const logEvents_1 = require("./middleware/logEvents");
 const errorHandler_1 = require("./middleware/errorHandler");
+const routeRoutes_1 = __importDefault(require("./routes/routeRoutes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
@@ -52,6 +53,7 @@ app
     .use("/api/v1/vehicle", vehicleRoutes_1.default)
     .use("/api/v1/user", usersRoutes_1.default)
     .use("/api/v1/entries", entriesRoute_1.default)
+    .use("/api/v1/route", routeRoutes_1.default)
     .get("/healthz", (req, res) => { return res.json({ ok: true, environment: process.env.NODE_ENV }); });
 io.on("connection", (socket) => {
     console.log("socket connected", socket.id);

@@ -10,10 +10,11 @@ import { Users } from "./userModel";
 class Drivers extends Model {
     @Column({
         primaryKey: true,
+        allowNull: true,
+        autoIncrement: true,
         type: DataType.BIGINT,
-        allowNull: false
     })
-    declare id: number;
+    declare id: number
 
     @Column({
         type: DataType.STRING,

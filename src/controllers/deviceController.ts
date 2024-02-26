@@ -2,9 +2,6 @@ import Device from "../models/deviceModel"
 
 import express from "express"
 
-
-
-
 const getDevice = async (req: express.Request, res: express.Response) => {
     const { id } = req.body;
     try {
@@ -18,6 +15,22 @@ const getDevice = async (req: express.Request, res: express.Response) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
+
+export const getDeviceIMEI = async (req: express.Request, res: express.Response) => {
+    const { deviceId } = req.params;
+    try {
+        const device = await Device.findOne({ where: { imei: deviceId } });
+
+        if (!device) {
+            return res.status(404).json({ message: "Device not found" });
+        }
+
+        return res.json(device);
+    } catch (err) {
+        console.error("Error retrieving device:", err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
 const getAllDevices = async (req: express.Request, res: express.Response) => {

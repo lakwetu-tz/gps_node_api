@@ -17,6 +17,7 @@ import SocketIO from 'socket.io';
 
 import { logger } from './middleware/logEvents';
 import { errorHandler } from './middleware/errorHandler';
+import routeRoutes from './routes/routeRoutes';
 
 dotenv.config();
 const app = express();
@@ -44,6 +45,7 @@ app
     .use("/api/v1/vehicle", VehicleRoutes)
     .use("/api/v1/user", userRoutes)
     .use("/api/v1/entries", entriesRoutes)
+    .use("/api/v1/route", routeRoutes)
 
 
     .get("/healthz", (req, res) => { return res.json({ ok: true, environment: process.env.NODE_ENV }) })

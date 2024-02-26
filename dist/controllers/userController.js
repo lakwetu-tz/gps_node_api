@@ -97,16 +97,16 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password, phone } = req.body;
     try {
         if (!username || !password || !phone) {
-            return res.status(400).json({ error: "All fields are required" });
+            return res.status(401).json({ error: "All fields are required" });
         }
         // Check if username already exists
         const existingUser = yield userModel_1.Users.findOne({ where: { username } });
         if (existingUser) {
-            return res.status(400).json({ error: "Username already exists" });
+            return res.status(402).json({ error: "Username already exists" });
         }
         const existingPhone = yield userModel_1.Users.findOne({ where: { phone } });
         if (existingPhone) {
-            return res.status(400).json({ error: "Phone number already exists" });
+            return res.status(403).json({ error: "Phone number already exists" });
         }
         // Hash the password
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);

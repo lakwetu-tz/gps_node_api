@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteDevice = exports.updateDevice = exports.createDevice = exports.getDevice = exports.getAllDevices = void 0;
+exports.deleteDevice = exports.updateDevice = exports.createDevice = exports.getDevice = exports.getAllDevices = exports.getDeviceIMEI = void 0;
 const deviceModel_1 = __importDefault(require("../models/deviceModel"));
 const getDevice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.body;
@@ -29,6 +29,21 @@ const getDevice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getDevice = getDevice;
+const getDeviceIMEI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { deviceId } = req.params;
+    try {
+        const device = yield deviceModel_1.default.findOne({ where: { imei: deviceId } });
+        if (!device) {
+            return res.status(404).json({ message: "Device not found" });
+        }
+        return res.json(device);
+    }
+    catch (err) {
+        console.error("Error retrieving device:", err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+exports.getDeviceIMEI = getDeviceIMEI;
 const getAllDevices = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const devices = yield deviceModel_1.default.findAll();

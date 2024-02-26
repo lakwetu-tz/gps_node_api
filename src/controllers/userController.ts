@@ -91,19 +91,18 @@ export const register = async (req: Request, res: Response) => {
     const { username, password, phone } = req.body;
     try {
         if (!username || !password || !phone ) {
-            return res.status(400).json({ error: "All fields are required" });
+            return res.status(401).json({ error: "All fields are required" });
         }
-
 
          // Check if username already exists
         const existingUser = await Users.findOne({ where: { username } });
         if (existingUser) {
-            return res.status(400).json({ error: "Username already exists" });
+            return res.status(402).json({ error: "Username already exists" });
         }
 
         const existingPhone = await Users.findOne({ where: { phone } });
         if (existingPhone) {
-            return res.status(400).json({ error: "Phone number already exists" });
+            return res.status(403).json({ error: "Phone number already exists" });
         }
 
         // Hash the password

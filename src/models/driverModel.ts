@@ -1,6 +1,4 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, HasMany, ForeignKey, BelongsTo} from "sequelize-typescript";
-import Vehicles from "./vehicleModel";
-import { Users } from "./userModel";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt } from "sequelize-typescript";
 
 @Table({
     timestamps: true,

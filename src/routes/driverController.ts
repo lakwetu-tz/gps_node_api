@@ -4,15 +4,15 @@ import { createDriver, getDriverById, updateDriver, deleteDriver } from "../cont
 const router = express.Router();
 
 // Create a new driver
-router.post("/drivers", createDriver);
+router.post("/create", createDriver);
 
 // Get driver by ID
-router.get("/drivers/:id", getDriverById);
+router.get("/get/:id", getDriverById);
 
 // Update driver by ID
-router.put("/drivers/:id", updateDriver);
+router.put("/update/:id", updateDriver);
 
 // Delete driver by ID
-router.delete("/drivers/:id", deleteDriver);
+router.delete("/delete/:id", deleteDriver);
 
 export default router;

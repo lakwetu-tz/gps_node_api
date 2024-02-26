@@ -20,7 +20,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
         });
 
         if (users.length === 0) {
-            // If no users found, return a response indicating no users found
+         
             return res.status(404).json({ message: "No users found" });
         }
 
@@ -31,7 +31,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
     }
 };
 
-// Get user by ID
+
 export const getUserById = async (req: Request, res: Response) => {
     const { id } = req.params;
     console.log(id)
@@ -67,11 +67,10 @@ export const updateUser = async (req: Request, res: Response) => {
     }
 };
 
-// Delete an existing user
 export const deleteUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-        // Check if the user exists
+
         const user = await Users.findByPk(id);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
@@ -94,7 +93,6 @@ export const register = async (req: Request, res: Response) => {
             return res.status(401).json({ error: "All fields are required" });
         }
 
-         // Check if username already exists
         const existingUser = await Users.findOne({ where: { username } });
         if (existingUser) {
             return res.status(402).json({ error: "Username already exists" });
@@ -105,10 +103,8 @@ export const register = async (req: Request, res: Response) => {
             return res.status(403).json({ error: "Phone number already exists" });
         }
 
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create the new user
         const newUser = await Users.create({ username, password: hashedPassword, phone, role: UserRole.USER });
         return res.status(200).json(newUser);
     } catch (error) {
@@ -142,11 +138,10 @@ export const login = async (req: Request, res: Response) => {
             { "phone": user.phone }, REFRESH_SECRET_TOKEN,{ expiresIn: '1d'}
         )
 
-        // Saving refreshToken
+  
         user.refreshToken = refreshToken
         await user.save();
 
-        // Creates Secure Cookie with refresh token
         res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
 
 
@@ -164,7 +159,7 @@ export const registerClient = async (req: Request, res: Response) => {
             return res.status(400).json({ error: "All fields are required" });
         }
 
-         // Check if username already exists
+   
         const existingUser = await Users.findOne({ where: { username } });
         if (existingUser) {
             return res.status(401).json({ error: "Username already exists" });
@@ -192,7 +187,7 @@ export const loginClient = async (req: Request, res: Response) => {
     try {
         let user;
 
-        // Find user by email or username
+
         if (email) {
             user = await Users.findOne({ where: { email } });
         } else if (username) {
@@ -203,7 +198,6 @@ export const loginClient = async (req: Request, res: Response) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Check password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             return res.status(401).json({ error: "Invalid password" });

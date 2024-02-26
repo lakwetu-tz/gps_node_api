@@ -29,7 +29,6 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             order: [['created_at', 'DESC']] // Sort by created_at field in descending order
         });
         if (users.length === 0) {
-            // If no users found, return a response indicating no users found
             return res.status(404).json({ message: "No users found" });
         }
         return res.status(200).json(users);
@@ -40,7 +39,6 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getAllUsers = getAllUsers;
-// Get user by ID
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     console.log(id);
@@ -74,11 +72,9 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateUser = updateUser;
-// Delete an existing user
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        // Check if the user exists
         const user = yield userModel_1.Users.findByPk(id);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
@@ -99,7 +95,6 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!username || !password || !phone) {
             return res.status(401).json({ error: "All fields are required" });
         }
-        // Check if username already exists
         const existingUser = yield userModel_1.Users.findOne({ where: { username } });
         if (existingUser) {
             return res.status(402).json({ error: "Username already exists" });
@@ -108,9 +103,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (existingPhone) {
             return res.status(403).json({ error: "Phone number already exists" });
         }
-        // Hash the password
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-        // Create the new user
         const newUser = yield userModel_1.Users.create({ username, password: hashedPassword, phone, role: userModel_1.UserRole.USER });
         return res.status(200).json(newUser);
     }
@@ -136,10 +129,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const accessToken = jsonwebtoken_1.default.sign({ "phone": user.phone, "role": userModel_1.UserRole.USER }, JWT_SECRET_KEY, { expiresIn: '1h' });
         const refreshToken = jsonwebtoken_1.default.sign({ "phone": user.phone }, REFRESH_SECRET_TOKEN, { expiresIn: '1d' });
-        // Saving refreshToken
         user.refreshToken = refreshToken;
         yield user.save();
-        // Creates Secure Cookie with refresh token
         res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 });
         return res.status(200).json({ id: user.id, accessToken });
     }
@@ -155,7 +146,6 @@ const registerClient = (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (!username || !password || !email) {
             return res.status(400).json({ error: "All fields are required" });
         }
-        // Check if username already exists
         const existingUser = yield userModel_1.Users.findOne({ where: { username } });
         if (existingUser) {
             return res.status(401).json({ error: "Username already exists" });
@@ -180,7 +170,6 @@ const loginClient = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const { username, email, password } = req.body;
     try {
         let user;
-        // Find user by email or username
         if (email) {
             user = yield userModel_1.Users.findOne({ where: { email } });
         }
@@ -190,7 +179,6 @@ const loginClient = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
-        // Check password
         const isPasswordValid = yield bcrypt_1.default.compare(password, user.password);
         if (!isPasswordValid) {
             return res.status(401).json({ error: "Invalid password" });

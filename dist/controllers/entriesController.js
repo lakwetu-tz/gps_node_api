@@ -19,68 +19,70 @@ const entriesParams = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const data = req.body;
     try {
         for (const entry of data.data) {
-            const updatedVehicle = vehicleModel_1.default.update({
+            yield vehicleModel_1.default.update({
                 latitude: entry.lat,
                 longitude: entry.lng,
                 angle: entry.angle,
                 speed: entry.speed,
                 altitude: entry.altitude,
-                status: "active" // Assuming you want to set the status to "active"
+                status: "active"
             }, { where: { deviceId: data.imei } });
-            yield Promise.all([updatedVehicle]);
-            if (data.movement === 1) {
-                req.app.get("io").emit("notification", { type: "movement", deviceId: data.imei });
-            }
-            if (data.movement === 1) {
-                req.app.get("io").emit("notification", { type: "ignition", deviceId: data.imei });
-            }
         }
         const vehicle = yield vehicleModel_1.default.findOne({ where: { deviceId: data.imei } });
-        // use socket to send the updated vehicle
         if (vehicle) {
             req.app.get("io").emit("vehicleUpdated", vehicle);
         }
+        console.log('Vehicle updated successfully');
+        return res.status(200).json({ message: "Vehicle updated successfully" });
     }
     catch (error) {
-        return console.error("Error fetching users:", error);
+        console.error("Error updating vehicle:", error);
+        return res.status(500).json({ error: "Internal server error" });
     }
 });
 exports.entriesParams = entriesParams;
 const entriesExtends = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     try {
-        // check imei of the data send 
-        const vehicle = yield vehicleModel_1.default.findOne({ where: { deviceId: data.imei } });
-        const device = yield deviceModel_1.default.findOne({ where: { imei: data.imei } });
-        const vehicleUpdate = vehicleModel_1.default.update({
-            ignition: data.ignition,
-            movement: data.movement,
-        }, { where: { deviceId: data.imei } });
-        const deviceUpdate = deviceModel_1.default.update({
-            axisX: data.axis_x,
-            axisY: data.axis_y,
-            axisZ: data.axis_z,
-            batteryLevel: data.battery_level,
-            digitalInput: data.digital_input,
-            ecoScore: data.eco_score,
-            externalVoltage: data.external_voltage,
-            gsmAreaCode: data.gsm_area_code,
-            gsmCellId: data.gsm_cell_id,
-            gsmSignal: data.gsm_signal,
-            sleepMode: data.sleep_mode,
-            timestamp: data.timestamp,
-            totalOdometer: data.total_odometer,
-            unplug: data.unplug
-        }, { where: { imei: data.imei } });
-        yield Promise.all([vehicleUpdate, deviceUpdate]);
-        req.app.get("io").emit("vehicleUpdated", vehicle);
-        req.app.get("io").emit("deviceUpdated", device);
-        console.log('Vehicle and device updated successfully');
-        //     // Respond with a success message
-        return console.log("updated complete");
+        const [vehicle, device] = yield Promise.all([
+            vehicleModel_1.default.findOne({ where: { deviceId: data.imei } }),
+            deviceModel_1.default.findOne({ where: { imei: data.imei } })
+        ]);
+        if (vehicle && device) {
+            yield Promise.all([
+                vehicleModel_1.default.update({
+                    ignition: data.ignition,
+                    movement: data.movement
+                }, { where: { deviceId: data.imei } }),
+                deviceModel_1.default.update({
+                    axisX: data.axis_x,
+                    axisY: data.axis_y,
+                    axisZ: data.axis_z,
+                    batteryLevel: data.battery_level,
+                    digitalInput: data.digital_input,
+                    ecoScore: data.eco_score,
+                    externalVoltage: data.external_voltage,
+                    gsmAreaCode: data.gsm_area_code,
+                    gsmCellId: data.gsm_cell_id,
+                    gsmSignal: data.gsm_signal,
+                    sleepMode: data.sleep_mode,
+                    timestamp: data.timestamp,
+                    totalOdometer: data.total_odometer,
+                    unplug: data.unplug
+                }, { where: { imei: data.imei } })
+            ]);
+            req.app.get("io").emit("vehicleUpdated", vehicle);
+            req.app.get("io").emit("deviceUpdated", device);
+            console.log('Vehicle and device updated successfully');
+            return res.status(200).json({ message: "Vehicle and device updated successfully" });
+        }
+        else {
+            console.error("Vehicle or device not found");
+            return res.status(404).json({ error: "Vehicle or device not found" });
+        }
     }
     catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error updating vehicle and device:", error);
         return res.status(500).json({ error: "Internal server error" });
     }
 });

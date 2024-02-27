@@ -1,6 +1,5 @@
-import { Table, Column, Model, DataType, CreatedAt, UpdatedAt, ForeignKey, BelongsTo } from "sequelize-typescript";
-import Vehicles from "./vehicleModel";
-import Drivers from "./driverModel";
+import { Table, Column, Model, DataType, CreatedAt, UpdatedAt } from "sequelize-typescript";
+
 
 enum UserRole {
     USER = "user",

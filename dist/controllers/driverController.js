@@ -13,12 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteDriver = exports.updateDriver = exports.createDriver = exports.getDriverById = exports.getAllDrivers = void 0;
-const driverModel_1 = __importDefault(require("../models/driverModel")); // Assuming you have imported the Driver model
-// Get all drivers
+const driverModel_1 = __importDefault(require("../models/driverModel"));
 const getAllDrivers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const drivers = yield driverModel_1.default.findAll();
-        return res.status(200).json(drivers);
+        return res.status(200).json({ drivers });
     }
     catch (error) {
         console.error("Error fetching drivers:", error);
@@ -26,7 +25,6 @@ const getAllDrivers = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getAllDrivers = getAllDrivers;
-// Get driver by ID
 const getDriverById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -34,7 +32,7 @@ const getDriverById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (!driver) {
             return res.status(404).json({ error: "Driver not found" });
         }
-        return res.status(200).json(driver);
+        return res.status(200).json({ driver });
     }
     catch (error) {
         console.error("Error fetching driver by ID:", error);
@@ -44,15 +42,13 @@ const getDriverById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.getDriverById = getDriverById;
 // Create a new driver
 const createDriver = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { firstName, lastName, licenseNumber, phoneNumber } = req.body;
+    const { firstName, lastName, licenseNumber, phoneNumber, userId } = req.body;
     try {
-        // Validate required fields
         if (!firstName || !lastName || !licenseNumber || !phoneNumber) {
             return res.status(400).json({ error: "All fields are required" });
         }
-        // Create the new driver
-        const newDriver = yield driverModel_1.default.create({ firstName, lastName, licenseNumber, phoneNumber });
-        return res.status(201).json(newDriver);
+        const driver = yield driverModel_1.default.create({ firstName, lastName, licenseNumber, phoneNumber, userId });
+        return res.status(201).json({ driver });
     }
     catch (error) {
         console.error("Error creating driver:", error);
@@ -60,19 +56,16 @@ const createDriver = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.createDriver = createDriver;
-// Update an existing driver
 const updateDriver = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { firstName, lastName, licenseNumber, phoneNumber } = req.body;
+    const { firstName, lastName, licenseNumber, phoneNumber, vehicleId, userId } = req.body;
     try {
-        // Check if the driver exists
         const driver = yield driverModel_1.default.findByPk(id);
         if (!driver) {
             return res.status(404).json({ error: "Driver not found" });
         }
-        // Update the driver
-        yield driver.update({ firstName, lastName, licenseNumber, phoneNumber });
-        return res.status(200).json(driver);
+        yield driver.update({ firstName, lastName, licenseNumber, phoneNumber, vehicleId, userId });
+        return res.status(200).json({ driver });
     }
     catch (error) {
         console.error("Error updating driver:", error);
@@ -80,16 +73,13 @@ const updateDriver = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.updateDriver = updateDriver;
-// Delete an existing driver
 const deleteDriver = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        // Check if the driver exists
         const driver = yield driverModel_1.default.findByPk(id);
         if (!driver) {
             return res.status(404).json({ error: "Driver not found" });
         }
-        // Delete the driver
         yield driver.destroy();
         return res.status(204).send();
     }

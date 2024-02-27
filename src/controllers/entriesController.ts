@@ -18,6 +18,14 @@ export const entriesParams = async (req: Request, res: Response) => {
                 }, { where: { deviceId: data.imei}});
 
                 await Promise.all([ updatedVehicle ])
+
+                if (data.movement === 1) {
+                    req.app.get("io").emit("notification", { type: "movement", deviceId: data.imei });
+                }
+
+                if (data.movement === 1) {
+                    req.app.get("io").emit("notification", { type: "ignition", deviceId: data.imei });
+                }
             }
             const vehicle = await Vehicle.findOne({ where: { deviceId: data.imei } })
             

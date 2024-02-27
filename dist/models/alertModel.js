@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
-let Drivers = class Drivers extends sequelize_typescript_1.Model {
+let Alerts = class Alerts extends sequelize_typescript_1.Model {
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
@@ -20,62 +20,41 @@ __decorate([
         type: sequelize_typescript_1.DataType.BIGINT,
     }),
     __metadata("design:type", Number)
-], Drivers.prototype, "id", void 0);
+], Alerts.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false
     }),
     __metadata("design:type", String)
-], Drivers.prototype, "firstName", void 0);
+], Alerts.prototype, "type", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false
     }),
     __metadata("design:type", String)
-], Drivers.prototype, "lastName", void 0);
+], Alerts.prototype, "status", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
-    }),
-    __metadata("design:type", String)
-], Drivers.prototype, "licenseNumber", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
+        type: sequelize_typescript_1.DataType.STRING(200),
         allowNull: true
     }),
     __metadata("design:type", String)
-], Drivers.prototype, "vehicleId", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.BIGINT,
-        allowNull: false
-    }),
-    __metadata("design:type", Number)
-], Drivers.prototype, "userId", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Drivers.prototype, "phoneNumber", void 0);
+], Alerts.prototype, "deviceId", void 0);
 __decorate([
     sequelize_typescript_1.CreatedAt,
     __metadata("design:type", Date)
-], Drivers.prototype, "created_at", void 0);
+], Alerts.prototype, "created_at", void 0);
 __decorate([
     sequelize_typescript_1.UpdatedAt,
     __metadata("design:type", Date)
-], Drivers.prototype, "updated_at", void 0);
-Drivers = __decorate([
+], Alerts.prototype, "updated_at", void 0);
+Alerts = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
-        tableName: "drivers",
-        modelName: "Drivers",
+        tableName: "alerts",
+        modelName: "Alerts",
     })
-], Drivers);
-exports.default = Drivers;
+], Alerts);
+exports.default = Alerts;

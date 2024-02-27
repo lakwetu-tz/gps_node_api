@@ -33,20 +33,20 @@ class Drivers extends Model {
     declare licenseNumber: string;
 
     @Column({
-        type: DataType.INTEGER,
-        allowNull: false
+        type: DataType.STRING,
+        allowNull: true
     })
-    declare vehicleId: number;
+    declare vehicleId: string;
 
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.BIGINT,
         allowNull: false
     })
     declare userId: number;
 
     @Column({
         type: DataType.STRING,
-        allowNull: false
+        allowNull: true
     })
     declare phoneNumber: string;
 

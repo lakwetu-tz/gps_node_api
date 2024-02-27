@@ -4,11 +4,8 @@ import {
     Model,
     DataType,
     CreatedAt,
-    UpdatedAt,
-    ForeignKey,
-    BelongsTo,
+    UpdatedAt
 } from "sequelize-typescript";
-import Vehicles from "./vehicleModel";
 
 @Table({
     timestamps: true,

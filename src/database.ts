@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
-import Device from './models/deviceModel';
-import Vehicle from './models/vehicleModel';
-import Driver from './models/driverModel';
+import Devices from './models/deviceModel';
+import Vehicles from './models/vehicleModel';
+import Drivers from './models/driverModel';
 import { Users } from './models/userModel';
 import Routes from './models/routeModel';
 
@@ -16,9 +16,9 @@ const database = new Sequelize({
     logging: false
 });
 
-database.addModels([Device]);
-database.addModels([Vehicle]);
-database.addModels([Driver]);
+database.addModels([Devices]);
+database.addModels([Vehicles]);
+database.addModels([Drivers]);
 database.addModels([Users]);
 database.addModels([Routes]);
 

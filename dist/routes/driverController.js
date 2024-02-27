@@ -8,9 +8,8 @@ const driverController_1 = require("../controllers/driverController");
 const router = express_1.default.Router();
 // Create a new driver
 router.post("/create", driverController_1.createDriver);
-// Get driver by ID
+router.get("/all", driverController_1.getAllDrivers);
 router.get("/get/:id", driverController_1.getDriverById);
-// Update driver by ID
 router.put("/update/:id", driverController_1.updateDriver);
 // Delete driver by ID
 router.delete("/delete/:id", driverController_1.deleteDriver);

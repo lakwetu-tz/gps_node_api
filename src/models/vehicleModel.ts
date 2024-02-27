@@ -21,7 +21,6 @@ class Vehicles extends Model {
     })
     declare id: number;
 
-
     @Column({
         type: DataType.STRING,
         unique: true
@@ -35,7 +34,7 @@ class Vehicles extends Model {
     declare color: string;
 
     @Column({
-        type: DataType.BIGINT,
+        type: DataType.STRING,
         allowNull: true
     })
     declare driverId: string;

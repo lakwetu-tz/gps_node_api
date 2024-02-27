@@ -4,7 +4,7 @@ declare class Drivers extends Model {
     firstName: string;
     lastName: string;
     licenseNumber: string;
-    vehicleId: number;
+    vehicleId: string;
     userId: number;
     phoneNumber: string;
     created_at: Date;

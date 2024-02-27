@@ -28,6 +28,12 @@ const entriesParams = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 status: "active" // Assuming you want to set the status to "active"
             }, { where: { deviceId: data.imei } });
             yield Promise.all([updatedVehicle]);
+            if (data.movement === 1) {
+                req.app.get("io").emit("notification", { type: "movement", deviceId: data.imei });
+            }
+            if (data.movement === 1) {
+                req.app.get("io").emit("notification", { type: "ignition", deviceId: data.imei });
+            }
         }
         const vehicle = yield vehicleModel_1.default.findOne({ where: { deviceId: data.imei } });
         // use socket to send the updated vehicle

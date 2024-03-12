@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
-let Vehicles = class Vehicles extends sequelize_typescript_1.Model {
+let GeoFence = class GeoFence extends sequelize_typescript_1.Model {
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
@@ -20,139 +20,98 @@ __decorate([
         type: sequelize_typescript_1.DataType.BIGINT,
     }),
     __metadata("design:type", Number)
-], Vehicles.prototype, "id", void 0);
+], GeoFence.prototype, "id", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false,
+        unique: true
+    }),
+    __metadata("design:type", String)
+], GeoFence.prototype, "name", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         unique: true
     }),
     __metadata("design:type", String)
-], Vehicles.prototype, "plate", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "color", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "driverId", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.BIGINT,
-        allowNull: false
-    }),
-    __metadata("design:type", Number)
-], Vehicles.prototype, "userId", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(200),
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "deviceId", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "model", void 0);
+], GeoFence.prototype, "latitude", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false
     }),
     __metadata("design:type", String)
-], Vehicles.prototype, "make", void 0);
+], GeoFence.prototype, "longitude", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        unique: false
+    }),
+    __metadata("design:type", String)
+], GeoFence.prototype, "location", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
-        allowNull: true
-    }),
-    __metadata("design:type", Number)
-], Vehicles.prototype, "year", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "type", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
         allowNull: false
     }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "status", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "latitude", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "longitude", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true,
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "altitude", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "angle", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true,
-    }),
-    __metadata("design:type", String)
-], Vehicles.prototype, "speed", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.INTEGER,
-        allowNull: true
-    }),
     __metadata("design:type", Number)
-], Vehicles.prototype, "ignition", void 0);
+], GeoFence.prototype, "raduis", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.INTEGER,
+        type: sequelize_typescript_1.DataType.BOOLEAN,
+        allowNull: false,
+    }),
+    __metadata("design:type", Boolean)
+], GeoFence.prototype, "notifyOnEntry", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.BOOLEAN,
+        allowNull: false
+    }),
+    __metadata("design:type", Boolean)
+], GeoFence.prototype, "notifyOnExit", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
         allowNull: true
     }),
-    __metadata("design:type", Number)
-], Vehicles.prototype, "movement", void 0);
+    __metadata("design:type", String)
+], GeoFence.prototype, "tags", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], GeoFence.prototype, "routeId", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], GeoFence.prototype, "vehicleId", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], GeoFence.prototype, "type", void 0);
 __decorate([
     sequelize_typescript_1.CreatedAt,
     __metadata("design:type", Date)
-], Vehicles.prototype, "created_at", void 0);
+], GeoFence.prototype, "created_at", void 0);
 __decorate([
     sequelize_typescript_1.UpdatedAt,
     __metadata("design:type", Date)
-], Vehicles.prototype, "updated_at", void 0);
-Vehicles = __decorate([
+], GeoFence.prototype, "updated_at", void 0);
+GeoFence = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
-        tableName: "vehicles",
-        modelName: "Vehicles",
+        tableName: "geofence",
+        modelName: "GeoFence",
     })
-], Vehicles);
-exports.default = Vehicles;
+], GeoFence);
+exports.default = GeoFence;

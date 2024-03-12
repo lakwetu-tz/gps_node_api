@@ -20,6 +20,7 @@ declare class Vehicles extends Model {
     movement: number;
     created_at: Date;
     updated_at: Date;
+    timespamp: any;
 }
 export default Vehicles;
 //# sourceMappingURL=vehicleModel.d.ts.map

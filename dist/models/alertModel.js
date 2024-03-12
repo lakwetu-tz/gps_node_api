@@ -24,24 +24,31 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
+        allowNull: true
     }),
     __metadata("design:type", String)
-], Alerts.prototype, "type", void 0);
+], Alerts.prototype, "status", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], Alerts.prototype, "message", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], Alerts.prototype, "time", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false
     }),
     __metadata("design:type", String)
-], Alerts.prototype, "status", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(200),
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], Alerts.prototype, "deviceId", void 0);
+], Alerts.prototype, "vehicleId", void 0);
 __decorate([
     sequelize_typescript_1.CreatedAt,
     __metadata("design:type", Date)
@@ -53,8 +60,8 @@ __decorate([
 Alerts = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
-        tableName: "alerts",
-        modelName: "Alerts",
+        tableName: "alert",
+        modelName: "Alert",
     })
 ], Alerts);
 exports.default = Alerts;

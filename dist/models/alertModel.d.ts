@@ -1,9 +1,10 @@
 import { Model } from "sequelize-typescript";
 declare class Alerts extends Model {
     id: number;
-    type: string;
     status: string;
-    deviceId: string;
+    message: string;
+    time: string;
+    vehicleId: string;
     created_at: Date;
     updated_at: Date;
 }

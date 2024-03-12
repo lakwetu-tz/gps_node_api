@@ -5,6 +5,7 @@ import Drivers from './models/driverModel';
 import { Users } from './models/userModel';
 import Routes from './models/routeModel';
 import Alerts from './models/alertModel';
+import GeoFence from './models/geoFenceModel';
 
 
 // Create a Sequelize instance
@@ -23,6 +24,7 @@ database.addModels([Drivers]);
 database.addModels([Users]);
 database.addModels([Routes]);
 database.addModels([Alerts])
+database.addModels([GeoFence])
 
 database.authenticate()
     .then(() => {

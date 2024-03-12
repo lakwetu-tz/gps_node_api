@@ -17,6 +17,7 @@ const vehicleModel_1 = __importDefault(require("../models/vehicleModel")); // As
 const userModel_1 = require("../models/userModel");
 const deviceModel_1 = __importDefault(require("../models/deviceModel"));
 const driverModel_1 = __importDefault(require("../models/driverModel"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 // Get all vehicles
 const getAllVehicles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -51,18 +52,27 @@ const getVehicleById = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getVehicleById = getVehicleById;
 // Create a new vehicle
 const createVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { model, make, year, plate, color, type } = req.body;
+    const { make, plate, deviceId, password, userId } = req.body;
     try {
         // Validate VIN and model
-        if (!model || !make || !color || !year || !plate || !type) {
+        if (!password || !make || !deviceId || !plate) {
             return res.status(400).json({ error: "missing value required" });
+        }
+        const user = yield userModel_1.Users.findOne({ where: { id: userId } });
+        if (!user) {
+            return res.status(401).json({ error: "phone number not found" });
+        }
+        // Check password
+        const isPasswordValid = yield bcrypt_1.default.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(402).json({ error: "Invalid password" });
         }
         const existingPlate = yield vehicleModel_1.default.findOne({ where: { plate } });
         if (existingPlate) {
-            return res.status(400).json({ error: "number plate already exists" });
+            return res.status(403).json({ error: "number plate already exists" });
         }
         // Create the new vehicle
-        const newVehicle = yield vehicleModel_1.default.create({ year, model, make, plate, color, type, status: "registered", });
+        const newVehicle = yield vehicleModel_1.default.create({ userId, make, plate, color: "white", status: "registered", });
         return res.status(201).json(newVehicle);
     }
     catch (error) {

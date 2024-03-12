@@ -29,7 +29,7 @@ class Vehicles extends Model {
 
     @Column({
         type: DataType.STRING,
-        allowNull: false
+        allowNull: true
     })
     declare color: string;
 
@@ -41,7 +41,7 @@ class Vehicles extends Model {
 
     @Column({
         type: DataType.BIGINT,
-        allowNull: true
+        allowNull: false
     })
     declare userId: number;
 
@@ -53,7 +53,7 @@ class Vehicles extends Model {
 
     @Column({
         type: DataType.STRING,
-        allowNull: false
+        allowNull: true
     })
     declare model: string;
 
@@ -65,13 +65,13 @@ class Vehicles extends Model {
 
     @Column({
         type: DataType.INTEGER,
-        allowNull: false
+        allowNull: true
     })
     declare year: number;
 
     @Column({
         type: DataType.STRING,
-        allowNull: false
+        allowNull: true
     })
     declare type: string;
 
@@ -130,6 +130,7 @@ class Vehicles extends Model {
 
     @UpdatedAt
     declare updated_at: Date;
+    timespamp: any;
 }
 
 export default Vehicles;

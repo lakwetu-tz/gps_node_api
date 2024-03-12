@@ -3,6 +3,7 @@ import Vehicle from "../models/vehicleModel"; // Assuming you have imported the 
 import { Users } from "../models/userModel";
 import Devices from "../models/deviceModel";
 import Drivers from "../models/driverModel";
+import bcrypt from "bcrypt";
 
 // Get all vehicles
 export const getAllVehicles = async (req: Request, res: Response) => {
@@ -38,20 +39,31 @@ export const getVehicleById = async (req: Request, res: Response) => {
 
 // Create a new vehicle
 export const createVehicle = async (req: Request, res: Response) => {
-    const { model, make, year, plate, color, type } = req.body;
+    const { make, plate, deviceId, password, userId } = req.body;
     try {
         // Validate VIN and model
-        if (!model || !make || !color || !year || !plate || !type ) {
+        if (!password || !make || !deviceId || !plate ) {
             return res.status(400).json({ error: "missing value required" });
+        }
+
+        const user = await Users.findOne({ where: { id: userId } });
+        if (!user) {
+            return res.status(401).json({ error: "phone number not found" });
+        }
+
+        // Check password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(402).json({ error: "Invalid password" });
         }
 
         const existingPlate = await Vehicle.findOne({ where: { plate } });
         if (existingPlate) {
-            return res.status(400).json({ error: "number plate already exists" });
+            return res.status(403).json({ error: "number plate already exists" });
         }
 
         // Create the new vehicle
-        const newVehicle = await Vehicle.create({ year, model, make, plate, color, type, status: "registered", });
+        const newVehicle = await Vehicle.create({ userId, make, plate, color: "white", status: "registered", });
         return res.status(201).json(newVehicle);
     } catch (error) {
         console.error("Error creating vehicle:", error);

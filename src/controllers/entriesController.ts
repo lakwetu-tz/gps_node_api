@@ -1,36 +1,57 @@
 import { Request, Response } from "express";
 import Vehicle from "../models/vehicleModel";
 import Device from "../models/deviceModel";
+import Alerts from "../models/alertModel";
 
 interface EntryData {
+    utime: string;
+    priority: number;
     lat: number;
     lng: number;
+    altitude: number;
     angle: number;
     speed: number;
-    altitude: number;
-    status: string;
+    satellite: number;
 }
 
 export const entriesParams = async (req: Request, res: Response) => {
     const data: { data: EntryData[], imei: string } = req.body;
     try {
-        for (const entry of data.data) {
-            await Vehicle.update({
-                latitude: entry.lat,
-                longitude: entry.lng,
-                angle: entry.angle,
-                speed: entry.speed,
-                altitude: entry.altitude,
-                status: "active"
-            }, { where: { deviceId: data.imei } });
+        const vehicle = await Vehicle.findOne({ where: { deviceId: data.imei } });
+
+        const latestEntry = data.data.reduce((latest, current) => {
+            const latestTime = new Date(latest.utime);
+            const currentTime = new Date(current.utime);
+            return currentTime > latestTime ? current : latest;
+        }, data.data[0]);
+
+        await Vehicle.update({
+            latitude: latestEntry.lat,
+            longitude: latestEntry.lng,
+            angle: latestEntry.angle,
+            speed: latestEntry.speed,
+            altitude: latestEntry.altitude,
+            status: "active"
+        }, { where: { deviceId: data.imei } });
+
+        if (latestEntry.speed >= 90) {
+            await Alerts.create({
+                vehicleId: vehicle?.id,
+                message: `${vehicle?.make} has started over speed`,
+                status: 'Speed',
+                time: latestEntry.utime
+            });
         }
 
-        const vehicle = await Vehicle.findOne({ where: { deviceId: data.imei } });
         if (vehicle) {
             req.app.get("io").emit("vehicleUpdated", vehicle);
         }
-        
-        console.log('Vehicle updated successfully');
+
+        const alert = await Alerts.findOne({ where: { vehicleId: vehicle?.id } });
+        if (alert) {
+            req.app.get("io").emit("alertEvents", alert);
+        }
+
         return res.status(200).json({ message: "Vehicle updated successfully" });
     } catch (error) {
         console.error("Error updating vehicle:", error);
@@ -67,18 +88,26 @@ export const entriesExtends = async (req: Request, res: Response) => {
                     timestamp: data.timestamp,
                     totalOdometer: data.total_odometer,
                     unplug: data.unplug
-                }, { where: { imei: data.imei } })
+                }, { where: { imei: data.imei } }),
+
             ]);
-            
+
             req.app.get("io").emit("vehicleUpdated", vehicle);
             req.app.get("io").emit("deviceUpdated", device);
 
             console.log('Vehicle and device updated successfully');
             return res.status(200).json({ message: "Vehicle and device updated successfully" });
-        } else {
-            console.error("Vehicle or device not found");
-            return res.status(404).json({ error: "Vehicle or device not found" });
         }
+
+        if (data.ignition === 1 && vehicle) {
+            await Alerts.create({
+                vehicleId: vehicle.id,
+                message: `${vehicle.make} is ignited`,
+                status: 'ignition',
+                time: data.timespamp
+            });
+        }
+
     } catch (error) {
         console.error("Error updating vehicle and device:", error);
         return res.status(500).json({ error: "Internal server error" });

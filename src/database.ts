@@ -4,6 +4,7 @@ import Vehicles from './models/vehicleModel';
 import Drivers from './models/driverModel';
 import { Users } from './models/userModel';
 import Routes from './models/routeModel';
+import Alerts from './models/alertModel';
 
 
 // Create a Sequelize instance
@@ -21,6 +22,7 @@ database.addModels([Vehicles]);
 database.addModels([Drivers]);
 database.addModels([Users]);
 database.addModels([Routes]);
+database.addModels([Alerts])
 
 database.authenticate()
     .then(() => {

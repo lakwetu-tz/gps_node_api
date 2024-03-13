@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Vehicle from "../models/vehicleModel";
 import Device from "../models/deviceModel";
 import Alerts from "../models/alertModel";
+import Routes from "../models/routeModel";
 
 interface EntryData {
     utime: string;
@@ -16,6 +17,7 @@ interface EntryData {
 
 export const entriesParams = async (req: Request, res: Response) => {
     const data: { data: EntryData[], imei: string } = req.body;
+
     try {
         const vehicle = await Vehicle.findOne({ where: { deviceId: data.imei } });
 
@@ -33,6 +35,12 @@ export const entriesParams = async (req: Request, res: Response) => {
             altitude: latestEntry.altitude,
             status: "active"
         }, { where: { deviceId: data.imei } });
+
+        await Routes.update({
+            currentLatitude: latestEntry.lat,
+            currentLongitude: latestEntry.lng,
+            speed: latestEntry.speed
+        }, {where: { vehicleId: vehicle?.id}})
 
         if (latestEntry.speed >= 90) {
             await Alerts.create({
@@ -62,10 +70,11 @@ export const entriesParams = async (req: Request, res: Response) => {
 export const entriesExtends = async (req: Request, res: Response) => {
     const data: any = req.body;
     try {
-        const [vehicle, device] = await Promise.all([
+        const [vehicle, device ] = await Promise.all([
             Vehicle.findOne({ where: { deviceId: data.imei } }),
-            Device.findOne({ where: { imei: data.imei } })
+            Device.findOne({ where: { imei: data.imei } }),
         ]);
+
 
         if (vehicle && device) {
             await Promise.all([
@@ -110,6 +119,7 @@ export const entriesExtends = async (req: Request, res: Response) => {
             req.app.get("io").emit("alertEvents", alert);
         }
 
+
         if (data.movement === 1 && vehicle) {
             const alert = await Alerts.create({
                 vehicleId: vehicle.id,
@@ -120,7 +130,10 @@ export const entriesExtends = async (req: Request, res: Response) => {
             req.app.get("io").emit("alertEvents", alert);
         }
 
-        req.app.get("io").emit("deviceUpdated", device);
+        const alert = await Routes.update({
+            
+        }, { where: { vehicleId: vehicle?.id}})
+        
 
     } catch (error) {
         console.error("Error updating vehicle and device:", error);

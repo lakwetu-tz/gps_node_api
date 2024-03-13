@@ -31,7 +31,49 @@ class Routes extends Model {
         type: DataType.STRING,
         allowNull: false
     })
+    declare startLatitude: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare startLongitude: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
     declare startLocation: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare currentLatitude: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare currentLongitude: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare currentLocation: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare endLatitude: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false
+    })
+    declare endLongitude: string;
 
     @Column({
         type: DataType.STRING,
@@ -43,13 +85,31 @@ class Routes extends Model {
         type: DataType.INTEGER,
         allowNull: true
     })
-    declare distance: number;
+    declare totalDistance: string;
 
     @Column({
         type: DataType.INTEGER,
         allowNull: true
     })
-    declare duration: number;
+    declare leftDistance: string;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: true
+    })
+    declare totalTime: string;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: true
+    })
+    declare leftTime: string;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: true
+    })
+    declare speed: string;
 
     @Column({
         type: DataType.STRING,
@@ -68,7 +128,6 @@ class Routes extends Model {
         allowNull: true
     })
     declare trips: number;
-
 
     @Column({
         type: DataType.BIGINT,

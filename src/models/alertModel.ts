@@ -39,6 +39,12 @@ class Alerts extends Model {
     })
     declare time: string;
 
+    @Column({
+        type: DataType.BIGINT,
+        allowNull: false
+    })
+    declare userId: number;
+
 
     @Column({
         type: DataType.STRING,

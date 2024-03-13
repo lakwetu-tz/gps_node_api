@@ -100,13 +100,27 @@ export const entriesExtends = async (req: Request, res: Response) => {
         }
 
         if (data.ignition === 1 && vehicle) {
-            await Alerts.create({
+            const alert = await Alerts.create({
                 vehicleId: vehicle.id,
                 message: `${vehicle.make} is ignited`,
                 status: 'ignition',
                 time: data.timespamp
             });
+
+            req.app.get("io").emit("alertEvents", alert);
         }
+
+        if (data.movement === 1 && vehicle) {
+            const alert = await Alerts.create({
+                vehicleId: vehicle.id,
+                message: `${vehicle.make} has detect moventment`,
+                status: 'movement',
+                time: data.timespamp
+            });
+            req.app.get("io").emit("alertEvents", alert);
+        }
+
+        req.app.get("io").emit("deviceUpdated", device);
 
     } catch (error) {
         console.error("Error updating vehicle and device:", error);

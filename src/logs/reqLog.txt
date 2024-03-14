@@ -28,3 +28,13 @@
 20240314	13:04:14	f1f1c910-397a-4a97-af87-b67c3ae37296	POST	undefined	/api/v1/vehicle/create
 20240314	13:09:40	3e722786-34bd-4889-b2b7-e4ee3b6ec410	POST	undefined	/api/v1/device/create
 20240314	13:10:16	5b52c80f-dd2c-4eea-adfb-b4d108022061	POST	undefined	/api/v1/vehicle/create
+20240314	13:32:38	b689966f-c2c6-4f95-b240-75d0a0dc3885	GET	undefined	/api/v1/vehicle/all
+20240314	13:34:41	8040facd-eb2c-445a-8cc4-268455827a5a	POST	undefined	/api/v1/vehicle/create
+20240314	13:38:23	f7faa334-274b-4806-8870-fe94390f49e3	POST	undefined	/api/v1/vehicle/create
+20240314	13:38:30	2a8fac66-291c-43e4-a323-ffd55372591d	POST	undefined	/api/v1/vehicle/create
+20240314	13:39:04	a53378ac-ca59-4ad2-bbc0-a8f8c0ce0484	POST	undefined	/api/v1/device/create
+20240314	13:39:16	aa8fb419-b779-4e84-a447-e1cc935e6061	POST	undefined	/api/v1/vehicle/create
+20240314	13:39:20	a2825840-fadb-437e-ab8f-bbfe00c931b9	GET	undefined	/api/v1/vehicle/all
+20240314	13:42:55	5a5a408d-c55a-44b4-ae1f-13a44c2ccbd4	GET	undefined	/api/v1/vehicle/user/1
+20240314	13:43:20	c5656a8d-087f-4624-bb2f-c8940abe910d	GET	undefined	/api/v1/vehicle/user/1
+20240314	13:44:10	3b58b040-21f2-4253-a5fc-ab404010ac95	GET	undefined	/api/v1/vehicle/user/1

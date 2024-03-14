@@ -47,7 +47,11 @@ class Vehicles extends Model {
 
     @Column({
         type: DataType.STRING(200),
-        allowNull: true
+        unique: true,
+        validate: {
+            notEmpty: true,
+            len: [13, 13], 
+        },
     })
     declare deviceId: string;
 
@@ -65,7 +69,12 @@ class Vehicles extends Model {
 
     @Column({
         type: DataType.INTEGER,
-        allowNull: true
+        allowNull: true,
+        validate: {
+            isInt: true, // ensure year is an integer
+            min: 1900, // arbitrary minimum year
+            max: new Date().getFullYear(), // current year as maximum
+        }
     })
     declare year: number;
 

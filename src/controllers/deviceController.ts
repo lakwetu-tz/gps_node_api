@@ -65,8 +65,9 @@ const createDevice = async (req: express.Request, res: express.Response) => {
             const device = await Device.create({ imei, model, name, simCard, status: "registered", mobileData: true})
             return res.status(201).json(device);
         } catch (error) {
-            console.error('Error creating device:', error);
-            return res.status(500).json({ error: 'Internal server error' });
+            const errorMessage = error instanceof Error ? error.message.split('\n')[0] : 'Internal server error';
+            console.error("Error message:", errorMessage);
+            return res.json({ error: errorMessage })
         }
 }
 

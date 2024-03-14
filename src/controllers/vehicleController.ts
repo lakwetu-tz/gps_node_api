@@ -5,6 +5,14 @@ import Devices from "../models/deviceModel";
 import Drivers from "../models/driverModel";
 import bcrypt from "bcrypt";
 
+class CustomError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = this.constructor.name;
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
 // Get all vehicles
 export const getAllVehicles = async (req: Request, res: Response) => {
     try {
@@ -37,9 +45,31 @@ export const getVehicleById = async (req: Request, res: Response) => {
     }
 };
 
+// Get all vehicle based on the userId
+export const getVehicleByUserId = async(req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+        const user = await Users.findByPk(id)
+        if (!user){
+            return res.status(404).json({ error: "User not found"})
+        }
+
+        const vehicle = await Vehicle.findAll({ where: { userId: id}})
+        if (!vehicle){
+            return res.status(403).json({ error: "No vehicle found"})
+        }
+
+        return res.status(200).json(vehicle)
+    }catch(error){
+        console.error("Error fetching vehicle by ID:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
+
 // Create a new vehicle
 export const createVehicle = async (req: Request, res: Response) => {
     const { make, plate, deviceId, password, userId } = req.body;
+    
     try {
         // Validate VIN and model
         if (!password || !make || !deviceId || !plate ) {
@@ -48,7 +78,7 @@ export const createVehicle = async (req: Request, res: Response) => {
 
         const user = await Users.findOne({ where: { id: userId } });
         if (!user) {
-            return res.status(401).json({ error: "phone number not found" });
+            return res.status(404).json({ error: "user number not found" });
         }
 
         // Check password
@@ -62,12 +92,19 @@ export const createVehicle = async (req: Request, res: Response) => {
             return res.status(403).json({ error: "number plate already exists" });
         }
 
+        const existingDevice = await Devices.findOne({ where: { imei: deviceId } });
+        if (!existingDevice) {
+            return res.status(404).json({ error: "Device not registerd" });
+        }
+
         // Create the new vehicle
-        const newVehicle = await Vehicle.create({ userId, make, plate, color: "white", status: "registered", });
+        const newVehicle = await Vehicle.create({ userId, make, plate, color: "white", status: "registered", deviceId });
         return res.status(201).json(newVehicle);
-    } catch (error) {
-        console.error("Error creating vehicle:", error);
-        return res.status(500).json({ error: "Internal server error" });
+    } catch (error: unknown) {
+   
+        const errorMessage = error instanceof Error ? error.message.split('\n')[0] : 'Internal server error';
+        console.error("Error message:", errorMessage);
+        return res.json({ error: errorMessage })
     }
 };
 

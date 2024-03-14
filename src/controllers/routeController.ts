@@ -41,12 +41,9 @@ export const updateRoute = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'Route not found' });
         }
 
-
         route.name = name;
         route.startLocation = startLocation;
         route.endLocation = endLocation;
-        route.distance = distance;
-        route.duration = duration;
         route.description = description;
 
         await route.save();

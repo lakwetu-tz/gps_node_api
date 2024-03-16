@@ -6,19 +6,20 @@ import cors from 'cors'
 import http from "http";
 const cookieParser = require('cookie-parser');
 
-import deviceRoutes from './routes/deviceRoutes'
-import VehicleRoutes from "./routes/vehicleRoutes";
-import driverRoutes from './routes/driverController';
-import userRoutes from './routes/usersRoutes'
+import deviceRoutes from './routes/deviceRoute';
+import VehicleRoutes from "./routes/vehicleRoute";
+import driverRoutes from './routes/driverRoute';
+import userRoutes from './routes/usersRoute';
 import entriesRoutes from "./routes/entriesRoute";
-import Vehicle from "./models/vehicleModel";
+import routeRoutes from './routes/routeRoute';
+import alertRoutes from './routes/alertRoute';
+import geoFenceRoutes from './routes/geoFenceRoute'
+
 import "./database";
 import SocketIO from 'socket.io';
-
 import { logger } from './middleware/logEvents';
 import { errorHandler } from './middleware/errorHandler';
-import routeRoutes from './routes/routeRoutes';
-import alertRoutes from './routes/alertRoutes';
+
 
 dotenv.config();
 const app = express();
@@ -48,6 +49,7 @@ app
     .use("/api/v1/entries", entriesRoutes)
     .use("/api/v1/route", routeRoutes)
     .use("/api/v1/alert", alertRoutes)
+    .use("/api/v1/geoFence", geoFenceRoutes)
 
     .get("/healthz", (req, res) => { return res.json({ ok: true, environment: process.env.NODE_ENV }) })
 

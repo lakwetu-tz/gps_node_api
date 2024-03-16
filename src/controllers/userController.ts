@@ -97,6 +97,7 @@ export const register = async (req: Request, res: Response) => {
         if (existingUser) {
             return res.status(402).json({ error: "Username already exists" });
         }
+        
 
         const existingPhone = await Users.findOne({ where: { phone } });
         if (existingPhone) {

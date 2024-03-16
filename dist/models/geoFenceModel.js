@@ -25,14 +25,13 @@ __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false,
-        unique: true
     }),
     __metadata("design:type", String)
 ], GeoFence.prototype, "name", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        unique: true
+        allowNull: false
     }),
     __metadata("design:type", String)
 ], GeoFence.prototype, "latitude", void 0);
@@ -45,18 +44,11 @@ __decorate([
 ], GeoFence.prototype, "longitude", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        unique: false
-    }),
-    __metadata("design:type", String)
-], GeoFence.prototype, "location", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false
     }),
     __metadata("design:type", Number)
-], GeoFence.prototype, "raduis", void 0);
+], GeoFence.prototype, "radius", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.BOOLEAN,
@@ -77,13 +69,6 @@ __decorate([
         allowNull: true
     }),
     __metadata("design:type", String)
-], GeoFence.prototype, "tags", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
 ], GeoFence.prototype, "routeId", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
@@ -91,14 +76,7 @@ __decorate([
         allowNull: true
     }),
     __metadata("design:type", String)
-], GeoFence.prototype, "vehicleId", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
-    }),
-    __metadata("design:type", String)
-], GeoFence.prototype, "type", void 0);
+], GeoFence.prototype, "userId", void 0);
 __decorate([
     sequelize_typescript_1.CreatedAt,
     __metadata("design:type", Date)

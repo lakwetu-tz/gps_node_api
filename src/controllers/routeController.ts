@@ -1,18 +1,19 @@
 import { Request, Response } from 'express';
 import Routes from '../models/routeModel';
+import Vehicles from '../models/vehicleModel';
 
 
 export const createRoute = async (req: Request, res: Response) => {
     try {
-        const { name, startLocation, endLocation, distance, duration, description } = req.body;
+        const { name, startLocation, endLocation, distance, time, description } = req.body;
 
-        if (!name || !startLocation){
+        if (!name || !startLocation || endLocation){
             return res.status(401).json({ message: 'Missing fields'})
         }
 
-        const existingRoute = await Routes.findOne({ where: { name } });
-        if (existingRoute) {
-            return res.status(400).json({ message: 'Route already exists' });
+        const existingPlate = await Vehicles.findOne({ where: { plate: name } });
+        if (!existingPlate) {
+            return res.status(400).json({ message: 'Vehicle not found!' });
         }
 
         const route = await Routes.create({
@@ -20,7 +21,7 @@ export const createRoute = async (req: Request, res: Response) => {
             startLocation,
             endLocation,
             distance,
-            duration,
+            time,
             description,
         });
 
@@ -34,7 +35,7 @@ export const createRoute = async (req: Request, res: Response) => {
 export const updateRoute = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { name, startLocation, endLocation, distance, duration, description } = req.body;
+        const { name, startLocation, endLocation, distance, time, description } = req.body;
 
         const route = await Routes.findByPk(id);
         if (!route) {

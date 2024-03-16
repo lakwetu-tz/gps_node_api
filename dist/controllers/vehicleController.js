@@ -12,12 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteVehicle = exports.updateVehicle = exports.createVehicle = exports.getVehicleById = exports.getAllVehicles = void 0;
+exports.deleteVehicle = exports.updateVehicle = exports.createVehicle = exports.getVehicleByUserId = exports.getVehicleById = exports.getAllVehicles = void 0;
 const vehicleModel_1 = __importDefault(require("../models/vehicleModel")); // Assuming you have imported the Vehicle model
 const userModel_1 = require("../models/userModel");
 const deviceModel_1 = __importDefault(require("../models/deviceModel"));
 const driverModel_1 = __importDefault(require("../models/driverModel"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+class CustomError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = this.constructor.name;
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
 // Get all vehicles
 const getAllVehicles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -50,6 +57,26 @@ const getVehicleById = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getVehicleById = getVehicleById;
+// Get all vehicle based on the userId
+const getVehicleByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const user = yield userModel_1.Users.findByPk(id);
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        const vehicle = yield vehicleModel_1.default.findAll({ where: { userId: id } });
+        if (!vehicle) {
+            return res.status(403).json({ error: "No vehicle found" });
+        }
+        return res.status(200).json(vehicle);
+    }
+    catch (error) {
+        console.error("Error fetching vehicle by ID:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+exports.getVehicleByUserId = getVehicleByUserId;
 // Create a new vehicle
 const createVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { make, plate, deviceId, password, userId } = req.body;
@@ -60,7 +87,7 @@ const createVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         const user = yield userModel_1.Users.findOne({ where: { id: userId } });
         if (!user) {
-            return res.status(401).json({ error: "phone number not found" });
+            return res.status(404).json({ error: "user number not found" });
         }
         // Check password
         const isPasswordValid = yield bcrypt_1.default.compare(password, user.password);
@@ -71,13 +98,22 @@ const createVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (existingPlate) {
             return res.status(403).json({ error: "number plate already exists" });
         }
+        const existingImei = yield deviceModel_1.default.findOne({ where: { imei: deviceId } });
+        if (!existingImei) {
+            return res.status(404).json({ error: "Device not registerd" });
+        }
+        const existingDevice = yield vehicleModel_1.default.findOne({ where: { deviceId } });
+        if (existingDevice) {
+            return res.status(400).json({ error: "Device is registed and used " });
+        }
         // Create the new vehicle
-        const newVehicle = yield vehicleModel_1.default.create({ userId, make, plate, color: "white", status: "registered", });
+        const newVehicle = yield vehicleModel_1.default.create({ userId, make, plate, color: "white", status: "registered", deviceId });
         return res.status(201).json(newVehicle);
     }
     catch (error) {
-        console.error("Error creating vehicle:", error);
-        return res.status(500).json({ error: "Internal server error" });
+        const errorMessage = error instanceof Error ? error.message.split('\n')[0] : 'Internal server error';
+        console.error("Error message:", errorMessage);
+        return res.json({ error: errorMessage });
     }
 });
 exports.createVehicle = createVehicle;

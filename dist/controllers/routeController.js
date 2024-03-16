@@ -14,22 +14,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.assignDriverToRoute = exports.assignVehicleToRoute = exports.deleteRoute = exports.getRoutes = exports.getRouteById = exports.updateRoute = exports.createRoute = void 0;
 const routeModel_1 = __importDefault(require("../models/routeModel"));
+const vehicleModel_1 = __importDefault(require("../models/vehicleModel"));
 const createRoute = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, startLocation, endLocation, distance, duration, description } = req.body;
-        if (!name || !startLocation) {
+        const { name, startLocation, endLocation, distance, time, description } = req.body;
+        if (!name || !startLocation || endLocation) {
             return res.status(401).json({ message: 'Missing fields' });
         }
-        const existingRoute = yield routeModel_1.default.findOne({ where: { name } });
-        if (existingRoute) {
-            return res.status(400).json({ message: 'Route already exists' });
+        const existingPlate = yield vehicleModel_1.default.findOne({ where: { plate: name } });
+        if (!existingPlate) {
+            return res.status(400).json({ message: 'Vehicle not found!' });
         }
         const route = yield routeModel_1.default.create({
             name,
             startLocation,
             endLocation,
             distance,
-            duration,
+            time,
             description,
         });
         return res.status(201).json({ route });
@@ -43,7 +44,7 @@ exports.createRoute = createRoute;
 const updateRoute = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const { name, startLocation, endLocation, distance, duration, description } = req.body;
+        const { name, startLocation, endLocation, distance, time, description } = req.body;
         const route = yield routeModel_1.default.findByPk(id);
         if (!route) {
             return res.status(404).json({ message: 'Route not found' });
@@ -51,8 +52,6 @@ const updateRoute = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         route.name = name;
         route.startLocation = startLocation;
         route.endLocation = endLocation;
-        route.distance = distance;
-        route.duration = duration;
         route.description = description;
         yield route.save();
         return res.status(200).json({ route });

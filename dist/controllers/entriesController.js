@@ -16,6 +16,7 @@ exports.entriesExtends = exports.entriesParams = void 0;
 const vehicleModel_1 = __importDefault(require("../models/vehicleModel"));
 const deviceModel_1 = __importDefault(require("../models/deviceModel"));
 const alertModel_1 = __importDefault(require("../models/alertModel"));
+const routeModel_1 = __importDefault(require("../models/routeModel"));
 const entriesParams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     try {
@@ -33,6 +34,11 @@ const entriesParams = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             altitude: latestEntry.altitude,
             status: "active"
         }, { where: { deviceId: data.imei } });
+        yield routeModel_1.default.update({
+            currentLatitude: latestEntry.lat,
+            currentLongitude: latestEntry.lng,
+            speed: latestEntry.speed
+        }, { where: { vehicleId: vehicle === null || vehicle === void 0 ? void 0 : vehicle.id } });
         if (latestEntry.speed >= 90) {
             yield alertModel_1.default.create({
                 vehicleId: vehicle === null || vehicle === void 0 ? void 0 : vehicle.id,
@@ -61,7 +67,7 @@ const entriesExtends = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const [vehicle, device] = yield Promise.all([
             vehicleModel_1.default.findOne({ where: { deviceId: data.imei } }),
-            deviceModel_1.default.findOne({ where: { imei: data.imei } })
+            deviceModel_1.default.findOne({ where: { imei: data.imei } }),
         ]);
         if (vehicle && device) {
             yield Promise.all([
@@ -92,13 +98,24 @@ const entriesExtends = (req, res) => __awaiter(void 0, void 0, void 0, function*
             return res.status(200).json({ message: "Vehicle and device updated successfully" });
         }
         if (data.ignition === 1 && vehicle) {
-            yield alertModel_1.default.create({
+            const alert = yield alertModel_1.default.create({
                 vehicleId: vehicle.id,
                 message: `${vehicle.make} is ignited`,
                 status: 'ignition',
                 time: data.timespamp
             });
+            req.app.get("io").emit("alertEvents", alert);
         }
+        if (data.movement === 1 && vehicle) {
+            const alert = yield alertModel_1.default.create({
+                vehicleId: vehicle.id,
+                message: `${vehicle.make} has detect moventment`,
+                status: 'movement',
+                time: data.timespamp
+            });
+            req.app.get("io").emit("alertEvents", alert);
+        }
+        const alert = yield routeModel_1.default.update({}, { where: { vehicleId: vehicle === null || vehicle === void 0 ? void 0 : vehicle.id } });
     }
     catch (error) {
         console.error("Error updating vehicle and device:", error);

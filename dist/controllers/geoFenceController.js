@@ -16,26 +16,38 @@ exports.listGeoFences = exports.getGeoFenceById = exports.deleteGeoFence = expor
 const geoFenceModel_1 = __importDefault(require("../models/geoFenceModel"));
 // Create a new GeoFence
 const createGeoFence = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const characters = '0123456789abcdef';
+    let routeId = '';
+    for (let i = 0; i < 16; i++) { // 4 hexadecimal characters to form 16 bits
+        routeId += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    console.log();
     try {
-        const { name, latitude, longitude, location, radius, notifyOnEntry, notifyOnExit, tags, routeId, vehicleId, type } = req.body;
+        const { name, latitude, longitude, radius, notifyOnEntry, notifyOnExit } = req.body;
+        if (!name || !latitude || !longitude || !radius || !notifyOnEntry || !notifyOnExit) {
+            return res.status(400).send('Missing fields');
+        }
+        const geoFenceName = yield geoFenceModel_1.default.findOne({ where: { name } });
+        if (geoFenceName) {
+            return res.status(401).send({ error: "Duplicate name" });
+        }
         const newGeoFence = yield geoFenceModel_1.default.create({
             name,
             latitude,
             longitude,
-            location,
             radius,
             notifyOnEntry,
             notifyOnExit,
-            tags,
-            routeId,
-            vehicleId,
-            type
+            routeId
         });
         return res.json(newGeoFence);
     }
     catch (error) {
-        console.error('Error creating GeoFence:', error);
-        return res.status(500).send('Error creating GeoFence');
+        console.error('Error updating GeoFence:', error);
+        return res.status(500).send('Error updating GeoFence');
+        // const errorMessage = error instanceof Error ? error.message.split('\n')[0] : 'Internal server error';
+        // console.error("Error message:", errorMessage);
+        // return res.json({ error: errorMessage })
     }
 });
 exports.createGeoFence = createGeoFence;

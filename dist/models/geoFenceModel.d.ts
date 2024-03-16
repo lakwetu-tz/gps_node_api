@@ -4,14 +4,11 @@ declare class GeoFence extends Model {
     name: string;
     latitude: string;
     longitude: string;
-    location: string;
-    raduis: number;
+    radius: number;
     notifyOnEntry: boolean;
     notifyOnExit: boolean;
-    tags: string;
     routeId: string;
-    vehicleId: string;
-    type: string;
+    userId: string;
     created_at: Date;
     updated_at: Date;
 }

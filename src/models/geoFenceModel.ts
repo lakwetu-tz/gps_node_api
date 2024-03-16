@@ -25,13 +25,12 @@ class GeoFence extends Model {
     @Column({
         type: DataType.STRING,
         allowNull: false,
-        unique: true
     })
     declare name: string;
     
     @Column({
         type: DataType.STRING,
-        unique: true
+        allowNull: false
     })
     declare latitude: string;
 
@@ -42,16 +41,10 @@ class GeoFence extends Model {
     declare longitude: string;
 
     @Column({
-        type: DataType.STRING,
-        unique: false
-    })
-    declare location: string;
-
-    @Column({
         type: DataType.INTEGER,
         allowNull: false
     })
-    declare raduis: number;
+    declare radius: number;
 
     @Column({
         type: DataType.BOOLEAN,
@@ -69,25 +62,13 @@ class GeoFence extends Model {
         type: DataType.STRING,
         allowNull: true
     })
-    declare tags: string;
-
-    @Column({
-        type: DataType.STRING,
-        allowNull: true
-    })
     declare routeId: string;
 
     @Column({
         type: DataType.STRING,
         allowNull: true
     })
-    declare vehicleId: string;
-
-    @Column({
-        type: DataType.STRING,
-        allowNull: true
-    })
-    declare type: string;
+    declare userId: string;
 
     @CreatedAt
     declare created_at: Date;

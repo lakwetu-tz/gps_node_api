@@ -52,7 +52,11 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(200),
-        allowNull: true
+        unique: true,
+        validate: {
+            notEmpty: true,
+            len: [13, 13],
+        },
     }),
     __metadata("design:type", String)
 ], Vehicles.prototype, "deviceId", void 0);
@@ -73,7 +77,12 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
-        allowNull: true
+        allowNull: true,
+        validate: {
+            isInt: true, // ensure year is an integer
+            min: 1900, // arbitrary minimum year
+            max: new Date().getFullYear(), // current year as maximum
+        }
     }),
     __metadata("design:type", Number)
 ], Vehicles.prototype, "year", void 0);

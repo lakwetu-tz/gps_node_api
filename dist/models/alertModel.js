@@ -44,6 +44,13 @@ __decorate([
 ], Alerts.prototype, "time", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.BIGINT,
+        allowNull: false
+    }),
+    __metadata("design:type", Number)
+], Alerts.prototype, "userId", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         allowNull: false
     }),

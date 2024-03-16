@@ -73,8 +73,9 @@ const createDevice = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(201).json(device);
     }
     catch (error) {
-        console.error('Error creating device:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        const errorMessage = error instanceof Error ? error.message.split('\n')[0] : 'Internal server error';
+        console.error("Error message:", errorMessage);
+        return res.json({ error: errorMessage });
     }
 });
 exports.createDevice = createDevice;

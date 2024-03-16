@@ -4,6 +4,7 @@ declare class Alerts extends Model {
     status: string;
     message: string;
     time: string;
+    userId: number;
     vehicleId: string;
     created_at: Date;
     updated_at: Date;

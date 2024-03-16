@@ -41,7 +41,56 @@ __decorate([
         allowNull: false
     }),
     __metadata("design:type", String)
+], Routes.prototype, "startLatitude", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Routes.prototype, "startLongitude", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
 ], Routes.prototype, "startLocation", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Routes.prototype, "currentLatitude", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Routes.prototype, "currentLongitude", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Routes.prototype, "currentLocation", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Routes.prototype, "endLatitude", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false
+    }),
+    __metadata("design:type", String)
+], Routes.prototype, "endLongitude", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
@@ -54,15 +103,36 @@ __decorate([
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
-    __metadata("design:type", Number)
-], Routes.prototype, "distance", void 0);
+    __metadata("design:type", String)
+], Routes.prototype, "totalDistance", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: true
     }),
-    __metadata("design:type", Number)
-], Routes.prototype, "duration", void 0);
+    __metadata("design:type", String)
+], Routes.prototype, "leftDistance", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.INTEGER,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], Routes.prototype, "totalTime", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.INTEGER,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], Routes.prototype, "leftTime", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.INTEGER,
+        allowNull: true
+    }),
+    __metadata("design:type", String)
+], Routes.prototype, "speed", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,

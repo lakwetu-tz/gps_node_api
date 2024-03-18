@@ -38,21 +38,17 @@ export const createGeoFence = async (req: Request, res: Response) => {
 
     console.error('Error updating GeoFence:', error);
     return res.status(500).send('Error updating GeoFence');
-
-    // const errorMessage = error instanceof Error ? error.message.split('\n')[0] : 'Internal server error';
-    // console.error("Error message:", errorMessage);
-    // return res.json({ error: errorMessage })
   }
 }
 
 // Update an existing GeoFence
 export const updateGeoFence = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params; // Assuming id is passed as a URL parameter
+    const { id } = req.params; 
     const updateData = req.body;
     const [numberOfAffectedRows, [updatedGeoFence]] = await GeoFence.update(updateData, {
       where: { id },
-      returning: true, // This option is specific to PostgreSQL
+      returning: true,
     });
 
     if (numberOfAffectedRows > 0) {

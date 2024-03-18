@@ -66,3 +66,5 @@
 20240316	10:51:27	070efc87-0dc0-405e-8ea2-665fd565220f	POST	undefined	/api/v1/geoFence/create/
 20240316	10:51:37	df6a8131-917f-4a79-917d-b91981f082fd	POST	undefined	/api/v1/geoFence/create/
 20240316	21:07:39	f0d1eef4-953e-43ce-a4a6-a3af87d528ce	GET	undefined	/api/v1/geoFence/all/
+20240316	21:10:55	492402dd-76c7-46fd-a886-79e79d72d9f2	GET	undefined	/api/v1/geoFence/update/1
+20240316	21:11:04	7054f129-93a7-496f-9280-5868cd48b229	PUT	undefined	/api/v1/geoFence/update/1

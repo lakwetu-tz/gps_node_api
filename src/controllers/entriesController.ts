@@ -36,12 +36,6 @@ export const entriesParams = async (req: Request, res: Response) => {
             status: "active"
         }, { where: { deviceId: data.imei } });
 
-        await Routes.update({
-            currentLatitude: latestEntry.lat,
-            currentLongitude: latestEntry.lng,
-            speed: latestEntry.speed
-        }, {where: { vehicleId: vehicle?.id}})
-
         if (latestEntry.speed >= 90) {
             await Alerts.create({
                 vehicleId: vehicle?.id,

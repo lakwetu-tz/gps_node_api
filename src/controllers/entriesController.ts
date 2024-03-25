@@ -36,22 +36,8 @@ export const entriesParams = async (req: Request, res: Response) => {
             status: "active"
         }, { where: { deviceId: data.imei } });
 
-        if (latestEntry.speed >= 90) {
-            await Alerts.create({
-                vehicleId: vehicle?.id,
-                message: `${vehicle?.make} has started over speed`,
-                status: 'Speed',
-                time: latestEntry.utime
-            });
-        }
-
         if (vehicle) {
             req.app.get("io").emit("vehicleUpdated", vehicle);
-        }
-
-        const alert = await Alerts.findOne({ where: { vehicleId: vehicle?.id } });
-        if (alert) {
-            req.app.get("io").emit("alertEvents", alert);
         }
 
         return res.status(200).json({ message: "Vehicle updated successfully" });
@@ -101,32 +87,6 @@ export const entriesExtends = async (req: Request, res: Response) => {
             console.log('Vehicle and device updated successfully');
             return res.status(200).json({ message: "Vehicle and device updated successfully" });
         }
-
-        if (data.ignition === 1 && vehicle) {
-            const alert = await Alerts.create({
-                vehicleId: vehicle.id,
-                message: `${vehicle.make} is ignited`,
-                status: 'ignition',
-                time: data.timespamp
-            });
-
-            req.app.get("io").emit("alertEvents", alert);
-        }
-
-
-        if (data.movement === 1 && vehicle) {
-            const alert = await Alerts.create({
-                vehicleId: vehicle.id,
-                message: `${vehicle.make} has detect moventment`,
-                status: 'movement',
-                time: data.timespamp
-            });
-            req.app.get("io").emit("alertEvents", alert);
-        }
-
-        const alert = await Routes.update({
-            
-        }, { where: { vehicleId: vehicle?.id}})
         
 
     } catch (error) {

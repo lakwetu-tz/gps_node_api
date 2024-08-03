@@ -43,7 +43,7 @@ const io = new SocketIO.Server(server, {
         origin: '*',
     },
 });
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 7000
 
 app.set("io", io);
 
@@ -56,14 +56,14 @@ app
     .use(cookieParser())
     .use(logger)
     .use(errorHandler)
-    .use("/api/v1/device", deviceRoutes)
-    .use("/api/v1/driver", driverRoutes)
-    .use("/api/v1/vehicle", VehicleRoutes)
-    .use("/api/v1/user", userRoutes)
-    .use("/api/v1/entries", entriesRoutes)
-    .use("/api/v1/route", routeRoutes)
-    .use("/api/v1/alert", alertRoutes)
-    .use("/api/v1/geoFence", geoFenceRoutes)
+    // .use("/api/v1/device", deviceRoutes)
+    // .use("/api/v1/driver", driverRoutes)
+    // .use("/api/v1/vehicle", VehicleRoutes)
+    // .use("/api/v1/user", userRoutes)
+    // .use("/api/v1/entries", entriesRoutes)
+    // .use("/api/v1/route", routeRoutes)
+    // .use("/api/v1/alert", alertRoutes)
+    // .use("/api/v1/geoFence", geoFenceRoutes)
 
     .get("/healthz", (req, res) => { return res.json({ ok: true, environment: process.env.NODE_ENV }) })
 
@@ -113,10 +113,10 @@ basicDataReader.on('message', async (msg: any) => {
   try {
     const data: { data: EntryData[], imei: string } = JSON.parse(msg.body.toString());
 
-    const vehicle = await Vehicle.findOne({ where: { deviceId: data.imei } });
-    if (!vehicle) {
-      console.log("[ERROR] could not find any vehicle ")
-    }
+    // const vehicle = await Vehicle.findOne({ where: { deviceId: data.imei } });
+    // if (!vehicle) {
+    //   console.log("[ERROR] could not find any vehicle ")
+    // }
 
     const latestEntry = data.data.reduce((latest, current) => {
       const latestTime = new Date(latest.utime);
@@ -124,19 +124,32 @@ basicDataReader.on('message', async (msg: any) => {
       return currentTime > latestTime ? current : latest;
     }, data.data[0]);
 
-    await Vehicle.update({
+  //   await Vehicle.update({
+  //     latitude: latestEntry.lat,
+  //     longitude: latestEntry.lng,
+  //     angle: latestEntry.angle,
+  //     speed: latestEntry.speed,
+  //     altitude: latestEntry.altitude,
+  //     status: "active"
+  // }, { where: { deviceId: data.imei } });
+
+    const vehicleUpdate = {
+      imei: data.imei,
       latitude: latestEntry.lat,
       longitude: latestEntry.lng,
       angle: latestEntry.angle,
       speed: latestEntry.speed,
       altitude: latestEntry.altitude,
       status: "active"
-  }, { where: { deviceId: data.imei } });
+    };
 
-  if (vehicle) {
-    console.log({ message: "open socket on vehicle update event... "})
-    io.emit("vehicleUpdated", vehicle);
-  }
+  // if (vehicle) {
+  //   console.log({ message: "open socket on vehicle update event... "})
+  //   io.emit("vehicleUpdated", vehicle);
+  // }
+
+    console.log({ message: "open socket on vehicle update event...", vehicleUpdate });
+    io.emit("vehicleUpdated", vehicleUpdate);
 
     console.log("[INFO] Vehicle database updated successfully");
   } catch (error) {
@@ -169,8 +182,8 @@ basicDataReader.on('message', async (msg: any) => {
 
 server.listen(port, async () => {
     try {
-        await database.authenticate();
-        console.log('[INFO] Database connection has been established successfully.');
+        // await database.authenticate();
+        // console.log('[INFO] Database connection has been established successfully.');
 
         extendedDataReader.connect();
         console.log('[INFO] NSQ connection of extended topic established successfully');
@@ -180,7 +193,7 @@ server.listen(port, async () => {
 
         console.log(`[OK] api running on ${port}`);
     } catch (error) {
-        console.error('[ERROR] Unable to connect to the database:', error);
+      console.error('[ERROR] Unable to connect to NSQ:', error);
     }
 
 });

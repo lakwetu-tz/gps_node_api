@@ -50,14 +50,14 @@ class Vehicles extends Model {
         unique: true,
         validate: {
             notEmpty: true,
-            len: [13, 13], 
+            len: [13, 15], 
         },
     })
     declare deviceId: string;
 
     @Column({
         type: DataType.STRING,
-        allowNull: true
+        allowNull: false
     })
     declare model: string;
 

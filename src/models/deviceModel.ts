@@ -24,10 +24,10 @@ class Devices extends Model {
     @Column({
         type: DataType.STRING,
         unique: true,
-        validate: {
-            notEmpty: true,
-            len: [13, 13], 
-        },
+        // validate: {
+        //     notEmpty: true,
+        //     len: [13, 13], 
+        // },
     })
     declare imei: string;
 

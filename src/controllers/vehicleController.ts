@@ -68,7 +68,7 @@ export const getVehicleByUserId = async (req: Request, res: Response) => {
 
 // Create a new vehicle
 export const createVehicle = async (req: Request, res: Response) => {
-    const { make, plate, deviceId, password, userId } = req.body;
+    const { make, plate, model, year, type, deviceId, password, userId } = req.body;
 
     try {
         // Validate VIN and model
@@ -103,7 +103,7 @@ export const createVehicle = async (req: Request, res: Response) => {
         }
 
         // Create the new vehicle
-        const newVehicle = await Vehicle.create({ userId, make, plate, color: "white", status: "registered", deviceId });
+        const newVehicle = await Vehicle.create({ userId, make, model, year, type, plate, color: "white", status: "registered", deviceId });
         return res.status(201).json(newVehicle);
     } catch (error: unknown) {
 

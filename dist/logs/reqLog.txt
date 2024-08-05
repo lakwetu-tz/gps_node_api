@@ -34,3 +34,4 @@
 20240314	12:00:56	d9dc85a3-1732-4df3-a04e-fde87bf78935	POST	undefined	/api/v1/vehicle/create
 20240314	12:01:24	29ffc48d-9486-4fa3-bef5-60de740b0098	POST	undefined	/api/v1/vehicle/create
 20240314	12:03:46	17d0c696-5b93-4252-be8d-f732ef2e0bfa	POST	undefined	/api/v1/vehicle/create
+20240805	09:46:20	067f6853-fbdc-4e8c-996a-1517cdaa7766	GET	undefined	/healthz

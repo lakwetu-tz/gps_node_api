@@ -25,10 +25,10 @@ __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
         unique: true,
-        validate: {
-            notEmpty: true,
-            len: [13, 13],
-        },
+        // validate: {
+        //     notEmpty: true,
+        //     len: [13, 13], 
+        // },
     }),
     __metadata("design:type", String)
 ], Devices.prototype, "imei", void 0);

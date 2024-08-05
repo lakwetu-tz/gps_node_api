@@ -55,7 +55,7 @@ __decorate([
         unique: true,
         validate: {
             notEmpty: true,
-            len: [13, 13],
+            len: [13, 15],
         },
     }),
     __metadata("design:type", String)
@@ -63,7 +63,7 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
+        allowNull: false
     }),
     __metadata("design:type", String)
 ], Vehicles.prototype, "model", void 0);

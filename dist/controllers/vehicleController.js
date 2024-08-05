@@ -79,7 +79,7 @@ const getVehicleByUserId = (req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.getVehicleByUserId = getVehicleByUserId;
 // Create a new vehicle
 const createVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { make, plate, deviceId, password, userId } = req.body;
+    const { make, plate, model, year, type, deviceId, password, userId } = req.body;
     try {
         // Validate VIN and model
         if (!password || !make || !deviceId || !plate) {
@@ -107,7 +107,7 @@ const createVehicle = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             return res.status(400).json({ error: "Device is registed and used " });
         }
         // Create the new vehicle
-        const newVehicle = yield vehicleModel_1.default.create({ userId, make, plate, color: "white", status: "registered", deviceId });
+        const newVehicle = yield vehicleModel_1.default.create({ userId, make, model, year, type, plate, color: "white", status: "registered", deviceId });
         return res.status(201).json(newVehicle);
     }
     catch (error) {

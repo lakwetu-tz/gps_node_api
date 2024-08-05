@@ -29,16 +29,16 @@ database.addModels([alertModel_1.default]);
 database.addModels([geoFenceModel_1.default]);
 database.authenticate()
     .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log('[INFO] Connection has been established successfully.');
 })
     .catch((error) => {
-    console.error('Unable to connect to the database:', error);
+    console.error('[ERROR] Unable to connect to the database:', error);
 });
 database.sync()
     .then(() => {
-    console.log('Models synchronized with the database.');
+    console.log('[INFO] Models synchronized with the database.');
 })
     .catch((error) => {
-    console.error('Unable to synchronize models with the database:', error);
+    console.error('[ERROR] Unable to synchronize models with the database:', error);
 });
 exports.default = database;
